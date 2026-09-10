@@ -1,6 +1,6 @@
 # Agent 工程 · Agent loop（第 2 讲）
 
-> 导航：[目录](./README.md) · 上一讲：[01 · Tool calling 协议](./01-Tool-calling-协议.md) · 下一讲：待更新
+> 导航：[目录](./README.md) · 上一讲：[01 · Tool calling 协议](./01-Tool-calling-协议.md) · 下一讲：[03 · 记忆与上下文](./03-记忆与上下文.md)
 
 ## 这一讲解决什么
 
@@ -99,4 +99,4 @@ while True:
 
 ---
 
-**导航**：[目录](./README.md) · 上一讲：[01 · Tool calling 协议](./01-Tool-calling-协议.md) · 下一讲：待更新
+**导航**：[目录](./README.md) · 上一讲：[01 · Tool calling 协议](./01-Tool-calling-协议.md) · 下一讲：[03 · 记忆与上下文](./03-记忆与上下文.md)
