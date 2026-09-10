@@ -1,0 +1,4 @@
+scope,name,count,avg,passed,excellent
+<built-in function all>,,6,80.7,5,"Bob,Eve"
+class,A,3,80.7,,
+class,B,3,80.7,,

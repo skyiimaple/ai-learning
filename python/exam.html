@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>周考 · AI Learning</title>
+<style>
+:root{
+  --bg:#f8f9fb; --card:#fff; --text:#1a1a2e; --sub:#5a6170; --border:#e8ecf1;
+  --accent:#4f6ef7; --green:#10b981; --yellow:#f59e0b; --red:#ef4444;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text);line-height:1.7}
+.header{background:linear-gradient(135deg,#1e293b,#334155);color:#fff;padding:28px 20px;text-align:center}
+.header h1{font-size:22px;margin-bottom:6px}
+.header p{color:#94a3b8;font-size:13px}
+.wrap{max-width:760px;margin:0 auto;padding:20px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px 22px;margin-bottom:14px}
+.meta{font-size:13px;color:var(--sub);margin-bottom:12px}
+.btn{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--border);background:#fff;border-radius:8px;padding:8px 14px;font-size:13px;font-weight:600;cursor:pointer;text-decoration:none;color:var(--text)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.q{border-top:1px solid var(--border);padding-top:14px;margin-top:14px}
+.q:first-child{border-top:0;padding-top:0;margin-top:0}
+.q h3{font-size:15px;margin-bottom:8px}
+.q .type{font-size:11px;color:var(--accent);font-weight:700;margin-bottom:4px}
+.opts label{display:block;padding:8px 10px;border:1px solid var(--border);border-radius:8px;margin:6px 0;cursor:pointer;font-size:13px}
+.opts label:hover{border-color:var(--accent)}
+.opts input{margin-right:8px}
+textarea{width:100%;min-height:90px;border:1px solid var(--border);border-radius:8px;padding:10px;font:inherit;resize:vertical}
+.tip{background:#fffbeb;border-left:3px solid var(--yellow);padding:10px 12px;border-radius:8px;font-size:13px;color:#92400e;margin:10px 0}
+.ok{background:#ecfdf5;border-left-color:var(--green);color:#065f46}
+.err{background:#fef2f2;border-left-color:var(--red);color:#991b1b}
+.score{font-size:28px;font-weight:800}
+code{font-family:ui-monospace,Menlo,monospace;font-size:12px;background:#f1f5f9;padding:1px 5px;border-radius:4px}
+.hidden{display:none}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>📝 周考</h1>
+  <p>题目由 Cursor skill 实时生成 · 答完自动判客观题</p>
+</div>
+<div class="wrap">
+  <div class="card">
+    <div class="meta" id="meta">加载中…</div>
+    <div id="empty" class="tip hidden">
+      还没有本周试卷。请在 Cursor 发送：<br>
+      <strong id="empty-prompt">开始第 N 周考试</strong><br>
+      生成后刷新本页。建议用 <code>python3 -m http.server 8765</code> 打开本站。
+    </div>
+    <div id="exam" class="hidden"></div>
+    <div id="result" class="hidden"></div>
+    <div class="actions">
+      <a class="btn" href="ai-career-plan.html">← 返回大纲</a>
+      <button class="btn" type="button" id="btn-reload">刷新题目</button>
+      <button class="btn primary" type="button" id="btn-submit" disabled>交卷</button>
+    </div>
+  </div>
+</div>
+<script>
+(function () {
+  const params = new URLSearchParams(location.search);
+  let week = Number(params.get('week') || 0);
+  let exam = null;
+  let progress = null;
+
+  const $ = (id) => document.getElementById(id);
+
+  async function loadJSON(path) {
+    const res = await fetch(path + '?_=' + Date.now());
+    if (!res.ok) throw new Error(path + ' ' + res.status);
+    return res.json();
+  }
+
+  function weekDir(n) {
+    return 'exams/week' + String(n).padStart(2, '0');
+  }
+
+  function renderExam() {
+    $('exam').classList.remove('hidden');
+    $('empty').classList.add('hidden');
+    $('result').classList.add('hidden');
+    $('meta').innerHTML = `<strong>第 ${exam.week} 周 · ${exam.title}</strong> · ${exam.questions.length} 题 · 建议 ${exam.durationMin || 40} 分钟 · 满分 ${exam.totalScore || 100}`;
+    $('exam').innerHTML = exam.questions.map((q, i) => {
+      const head = `<div class="type">${q.type.toUpperCase()} · ${q.score} 分</div><h3>${i + 1}. ${q.prompt}</h3>`;
+      if (q.type === 'single' || q.type === 'multi') {
+        const inputType = q.type === 'single' ? 'radio' : 'checkbox';
+        const opts = (q.options || []).map((o, oi) =>
+          `<label><input type="${inputType}" name="q${i}" value="${oi}"> ${o}</label>`
+        ).join('');
+        return `<div class="q" data-idx="${i}">${head}<div class="opts">${opts}</div></div>`;
+      }
+      return `<div class="q" data-idx="${i}">${head}<textarea id="a${i}" placeholder="写下你的答案…"></textarea></div>`;
+    }).join('');
+    $('btn-submit').disabled = false;
+  }
+
+  function getAnswer(i, q) {
+    if (q.type === 'single') {
+      const el = document.querySelector(`input[name="q${i}"]:checked`);
+      return el ? Number(el.value) : null;
+    }
+    if (q.type === 'multi') {
+      return [...document.querySelectorAll(`input[name="q${i}"]:checked`)].map(x => Number(x.value));
+    }
+    return ($('a' + i)?.value || '').trim();
+  }
+
+  function sameMulti(a, b) {
+    if (!Array.isArray(a) || !Array.isArray(b) || a.length !== b.length) return false;
+    const sa = [...a].sort().join(',');
+    const sb = [...b].sort().join(',');
+    return sa === sb;
+  }
+
+  function grade() {
+    let autoScore = 0;
+    let autoMax = 0;
+    let subjective = [];
+    const details = [];
+
+    exam.questions.forEach((q, i) => {
+      const ans = getAnswer(i, q);
+      if (q.type === 'single' || q.type === 'multi') {
+        autoMax += q.score;
+        const ok = q.type === 'single' ? ans === q.answer : sameMulti(ans, q.answer);
+        if (ok) autoScore += q.score;
+        details.push({ i, ok, auto: true, score: ok ? q.score : 0, max: q.score });
+      } else {
+        subjective.push({ i, ans, max: q.score, rubric: q.rubric || '' });
+        details.push({ i, ok: null, auto: false, score: 0, max: q.score, ans });
+      }
+    });
+
+    const pctAuto = autoMax ? Math.round(autoScore / autoMax * 100) : 0;
+    $('result').classList.remove('hidden');
+    $('result').innerHTML = `
+      <div class="tip ok">
+        <div class="score">${autoScore} / ${autoMax}</div>
+        <div>客观题得分（约 ${pctAuto}%）。简答题需对照 <code>${weekDir(exam.week)}/answers.md</code> 自评或让 Cursor 批改。</div>
+      </div>
+      <div class="tip">交卷后请在 Cursor 说：「批改第 ${exam.week} 周考试」，并把简答内容贴出；或自行打开 answers.md。</div>
+      <pre style="white-space:pre-wrap;font-size:12px;background:#f8fafc;padding:10px;border-radius:8px;margin-top:10px">${JSON.stringify({ week: exam.week, autoScore, autoMax, subjective }, null, 2)}</pre>
+    `;
+
+    // persist lightweight result to localStorage for progress page awareness
+    const key = 'ai-learning-exam-result-w' + exam.week;
+    localStorage.setItem(key, JSON.stringify({
+      week: exam.week,
+      autoScore,
+      autoMax,
+      at: new Date().toISOString()
+    }));
+  }
+
+  async function init() {
+    try {
+      progress = await loadJSON('./progress.json');
+    } catch (_) {
+      $('meta').textContent = '无法读取 progress.json，请用本地静态服务器打开。';
+      return;
+    }
+
+    if (!week) week = progress.currentWeek || 1;
+    const wmeta = progress.weeks.find(w => w.id === week);
+    $('empty-prompt').textContent = `开始第 ${week} 周考试`;
+    $('meta').textContent = `第 ${week} 周` + (wmeta ? ` · ${wmeta.title}` : '');
+
+    try {
+      exam = await loadJSON(`./${weekDir(week)}/exam.json`);
+      renderExam();
+    } catch (_) {
+      $('empty').classList.remove('hidden');
+      $('exam').classList.add('hidden');
+      $('btn-submit').disabled = true;
+    }
+  }
+
+  $('btn-reload').addEventListener('click', init);
+  $('btn-submit').addEventListener('click', () => {
+    if (!exam) return;
+    if (!confirm('确定交卷？客观题将立即判分。')) return;
+    grade();
+  });
+
+  init();
+})();
+</script>
+</body>
+</html>

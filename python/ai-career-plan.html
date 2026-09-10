@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>前端转AI · 转型路线图</title>
+<style>
+:root{
+  --bg:#f8f9fb; --card:#fff; --text:#1a1a2e; --sub:#5a6170; --border:#e8ecf1;
+  --accent:#4f6ef7; --green:#10b981; --yellow:#f59e0b; --red:#ef4444;
+  --blue:#3b82f6; --purple:#8b5cf6;
+  --shadow:0 1px 3px rgba(0,0,0,0.06),0 1px 2px rgba(0,0,0,0.04);
+  --shadow-lg:0 4px 16px rgba(0,0,0,0.06);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text);line-height:1.75;-webkit-font-smoothing:antialiased}
+
+/* Header */
+.header{background:linear-gradient(135deg,#1e293b 0%,#334155 50%,#1e293b 100%);padding:48px 32px;text-align:center;color:#fff}
+.header h1{font-size:30px;font-weight:800;margin-bottom:8px;color:#fff}
+.header .sub{color:#94a3b8;font-size:15px;max-width:620px;margin:0 auto}
+
+.container{max-width:860px;margin:0 auto;padding:24px 20px}
+
+/* Section */
+.section{background:var(--card);border-radius:14px;padding:28px 32px;margin-bottom:16px;box-shadow:var(--shadow);border:1px solid var(--border)}
+.section h2{font-size:19px;font-weight:700;margin-bottom:18px;display:flex;align-items:center;gap:10px}
+.section h3{font-size:15px;font-weight:700;color:var(--accent);margin:22px 0 10px}
+.section h3:first-of-type{margin-top:0}
+.section .icon{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0}
+
+/* Cards */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.grid3{display:grid;grid-template-columns:repeat(auto-fill,minmax(255px,1fr));gap:12px}
+.card{border-radius:10px;padding:16px 18px;border:1px solid var(--border);background:#fafbfc;transition:box-shadow 0.15s}
+.card:hover{box-shadow:var(--shadow-lg)}
+.card h4{font-size:14px;font-weight:700;margin-bottom:6px}
+.card p,.card li{font-size:13px;color:var(--sub);line-height:1.7}
+.card ul{list-style:none;margin-top:6px}
+.card li{padding:2px 0}
+.card li::before{content:'▸ ';font-weight:700;color:var(--accent)}
+.card.g{border-left:3px solid var(--green)}
+.card.p{border-left:3px solid var(--accent)}
+.card.b{border-left:3px solid var(--blue)}
+.card.r{border-left:3px solid var(--red)}
+.card.y{border-left:3px solid var(--yellow)}
+
+/* Tags */
+tag{display:inline-block;padding:2px 7px;border-radius:6px;font-size:11px;font-weight:600;margin-right:2px}
+tag.green{background:#ecfdf5;color:#059669}
+tag.purple{background:#eef2ff;color:#4f46e5}
+tag.blue{background:#eff6ff;color:#2563eb}
+tag.amber{background:#fffbeb;color:#d97706}
+tag.red{background:#fef2f2;color:#dc2626}
+
+/* Week blocks */
+.week-block{margin:10px 0 18px 12px;padding:12px 16px;border-left:3px solid var(--border);border-radius:0 8px 8px 0;background:#fafbfc}
+.week-block h4{font-size:14px;font-weight:700;color:var(--blue);margin-bottom:6px}
+.week-block ul{list-style:none}
+.week-block li{margin:5px 0;font-size:13px;color:var(--sub);position:relative;padding-left:14px}
+.week-block li::before{content:'•';position:absolute;left:0;color:#c4c9d4}
+
+/* Tips */
+.tip{background:#fffbeb;border-left:3px solid var(--yellow);padding:12px 16px;border-radius:8px;font-size:13px;margin:10px 0;color:#92400e}
+.tip strong{color:#b45309}
+.tip.green{background:#ecfdf5;border-left-color:var(--green);color:#065f46}
+.tip.green strong{color:#047857}
+
+/* Tables */
+.tb{width:100%;border-collapse:collapse;margin:10px 0;font-size:13px}
+.tb th{background:#f8f9fc;padding:9px 12px;text-align:left;color:var(--sub);font-weight:600;border-bottom:2px solid var(--border)}
+.tb td{padding:9px 12px;border-bottom:1px solid var(--border);vertical-align:top}
+.tb tr:hover td{background:#fafbfd}
+.tb a{color:var(--accent);text-decoration:none;font-weight:500}
+.tb a:hover{text-decoration:underline}
+
+/* Progress */
+.progress-wrap{display:flex;align-items:center;gap:10px;margin:8px 0}
+.progress-label{width:110px;font-size:13px;text-align:right;color:var(--sub)}
+.progress-track{flex:1;height:8px;background:#e8ecf1;border-radius:10px;overflow:hidden}
+.progress-fill{height:100%;border-radius:10px}
+.progress-fill.g{background:var(--green)}.progress-fill.p{background:var(--accent)}
+.progress-fill.b{background:var(--blue)}.progress-fill.y{background:var(--yellow)}
+
+/* Project cards with links */
+.project-card{background:#fafbfc;border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:8px}
+.project-card h4{font-size:14px;font-weight:700;margin-bottom:4px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.project-card .desc{font-size:13px;color:var(--sub);margin-bottom:8px;line-height:1.6}
+.project-card .refs{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.project-card .refs a{font-size:12px;padding:3px 10px;border-radius:14px;background:#eef2ff;color:var(--accent);text-decoration:none;font-weight:500;white-space:nowrap;transition:background 0.15s}
+.project-card .refs a:hover{background:#dde4ff}
+.project-card .level{font-size:11px;color:#aaa;font-weight:400}
+
+/* Inline link */
+.ilink{color:var(--accent);font-weight:500;text-decoration:none}
+.ilink:hover{text-decoration:underline}
+
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;font-size:12px;background:#f1f5f9;padding:1px 5px;border-radius:4px}
+
+
+/* Progress dashboard */
+.progress-dash{position:sticky;top:0;z-index:20;background:rgba(248,249,251,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);margin:-24px -20px 16px;padding:14px 20px 16px}
+.progress-dash .row{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:10px}
+.progress-dash .meta{font-size:13px;color:var(--sub)}
+.progress-dash .meta strong{color:var(--text)}
+.big-track{height:12px;background:#e8ecf1;border-radius:999px;overflow:hidden;margin:6px 0 4px}
+.big-fill{height:100%;background:linear-gradient(90deg,#4f6ef7,#10b981);border-radius:999px;width:0%;transition:width .35s ease}
+.progress-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:10px}
+.stat{background:#fff;border:1px solid var(--border);border-radius:10px;padding:10px 12px;text-align:center}
+.stat .n{font-size:18px;font-weight:800;color:var(--text)}
+.stat .l{font-size:11px;color:var(--sub);margin-top:2px}
+.btn{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--border);background:#fff;color:var(--text);border-radius:8px;padding:7px 12px;font-size:12px;font-weight:600;cursor:pointer;text-decoration:none}
+.btn:hover{border-color:var(--accent);color:var(--accent)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn.primary:hover{filter:brightness(1.05);color:#fff}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.week-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px}
+.week-card{border:1px solid var(--border);border-radius:10px;padding:12px 14px;background:#fafbfc}
+.week-card.current{border-color:var(--accent);box-shadow:0 0 0 2px rgba(79,110,247,.12)}
+.week-card.done{border-left:3px solid var(--green)}
+.week-card .top{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:6px}
+.week-card h4{font-size:13px;font-weight:700;margin:0}
+.week-card .focus{font-size:12px;color:var(--sub);margin:6px 0}
+.week-card .actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.badge{font-size:11px;font-weight:700;padding:2px 7px;border-radius:999px}
+.badge.pending{background:#fffbeb;color:#b45309}
+.badge.ready{background:#eff6ff;color:#2563eb}
+.badge.done{background:#ecfdf5;color:#059669}
+.badge.locked{background:#f1f5f9;color:#64748b}
+.badge.in_progress{background:#eef2ff;color:#4f46e5}
+.checkrow{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--sub);margin-top:6px}
+.checkrow input{accent-color:var(--accent)}
+@media(max-width:680px){
+  .progress-stats{grid-template-columns:1fr 1fr}
+  .progress-dash{position:static;margin:-20px -20px 12px}
+}
+
+/* Responsive */
+@media(max-width:680px){
+  .grid2{grid-template-columns:1fr}
+  .header{padding:32px 16px}
+  .header h1{font-size:22px}
+  .section{padding:20px}
+  .progress-label{width:90px;font-size:12px}
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>🤖 前端工程师 → AI 开发 · 转型路线图</h1>
+  <div class="sub">A 路线优先：Prompt → RAG → Agent → 可上线产品。传统 ML/DL 按需补，不占主线。</div>
+</div>
+
+<div class="container">
+
+<!-- 学习进度 & 周考 -->
+<div class="section" id="progress-section" style="padding-top:0;overflow:visible">
+  <div class="progress-dash">
+    <div class="row">
+      <div>
+        <h2 style="margin:0 0 4px;font-size:17px"><span class="icon" style="background:#ecfdf5;color:var(--green);display:inline-flex;width:28px;height:28px;border-radius:8px;align-items:center;justify-content:center;font-size:14px;margin-right:6px">📈</span>学习进度</h2>
+        <div class="meta" id="progress-meta">加载中…</div>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <a class="btn" href="exam.html">打开考试页</a>
+        <button class="btn primary" type="button" id="btn-start-exam">开始本周考试</button>
+        <button class="btn" type="button" id="btn-reload-progress">刷新进度</button>
+      </div>
+    </div>
+    <div class="big-track"><div class="big-fill" id="overall-fill"></div></div>
+    <div class="meta" id="overall-label">总进度 0%</div>
+    <div class="progress-stats">
+      <div class="stat"><div class="n" id="stat-day">0/120</div><div class="l">学习天数</div></div>
+      <div class="stat"><div class="n" id="stat-week">0/24</div><div class="l">完成周数</div></div>
+      <div class="stat"><div class="n" id="stat-exam">0/24</div><div class="l">通过周考</div></div>
+      <div class="stat"><div class="n" id="stat-month">1</div><div class="l">当前月份</div></div>
+    </div>
+  </div>
+
+  <h3 style="margin-top:8px">📅 每周进度与考试</h3>
+  <p style="color:var(--sub);font-size:13px;margin-bottom:10px">每周结束安排一次考试。点击「开始考试」后，在 Cursor 说「开始第 N 周考试」实时出题；题目写入 <code>exams/weekNN/</code>，可在 <a class="ilink" href="exam.html">exam.html</a> 作答。</p>
+  <div class="tip green"><strong>本地预览提示：</strong>若进度读不到，在仓库根目录执行 <code>python3 -m http.server 8765</code>，浏览器打开 <code>http://localhost:8765/ai-career-plan.html</code>。</div>
+  <div class="week-grid" id="week-grid"></div>
+</div>
+
+<!-- 优势 -->
+<div class="section">
+  <h2><span class="icon" style="background:#ecfdf5;color:var(--green)">💎</span> 前端工程师的隐藏优势</h2>
+  <div class="grid2">
+    <div class="card g"><h4>编程思维成熟</h4><p>抽象能力、模块化、异步编程、调试经验直接迁移到 Python/ML，不是从零学编程</p></div>
+    <div class="card g"><h4>工程化是肌肉记忆</h4><p>Git、CI/CD、Docker、API 设计、性能优化 → AI 产品化和 MLOps 直接上手</p></div>
+    <div class="card g"><h4>你懂产品</h4><p>AI 最终要落地成产品，纯算法工程师缺产品感和 UI 审美，你有</p></div>
+    <div class="card g"><h4>异步/数据流是老本行</h4><p>Promise/Stream → Python async → LLM Streaming UI，前端栈就是差异化</p></div>
+  </div>
+</div>
+
+<!-- 三条路径 -->
+<div class="section">
+  <h2><span class="icon" style="background:#eef2ff;color:var(--accent)">🛤️</span> 三条转型路径</h2>
+  <div class="grid3">
+    <div class="card p"><h4>🅰️ AI 应用开发 <tag class="green">推荐主线</tag></h4><p>用 LLM API 做产品：Prompt、RAG、Agent、Streaming UI。门槛最低、前端优势最大、6 个月出成果。岗位：AI 全栈 / AI 产品工程师</p></div>
+    <div class="card b"><h4>🅱️ ML 工程师 <tag class="amber">选修加深</tag></h4><p>训练/微调/部署模型。需要扎实数学和 ML 基础，周期 12-18 个月。岗位：MLE / 算法工程师</p></div>
+    <div class="card y"><h4>🅲️ MLOps / AI Infra</h4><p>AI 基础设施和工具链。工程能力要求最高，前端工程化经验全能用。岗位：MLOps / AI Platform</p></div>
+  </div>
+  <div class="tip green"><strong>本版策略：</strong>主线只走 A。月 1–4 交付可用产品；数学 / sklearn / PyTorch 收成「选修包」，卡壳再补。站稳后按兴趣向 B 或 C 深入。</div>
+</div>
+
+<!-- 技术栈锚点 -->
+<div class="section">
+  <h2><span class="icon" style="background:#eff6ff;color:var(--blue)">⚓</span> 固定技术栈（从第 1 个月就用）</h2>
+  <div class="grid2">
+    <div class="card b"><h4>前端（你的主场）</h4><p>Next.js + TypeScript + <a class="ilink" href="https://sdk.vercel.ai/docs" target="_blank">Vercel AI SDK</a><br>Streaming / Tool UI / Chat 交互直接复用前端经验</p></div>
+    <div class="card b"><h4>后端</h4><p>Python + FastAPI<br>调模型 API、跑 RAG、编排 Agent；需要时再上 Node</p></div>
+    <div class="card b"><h4>数据 / 向量</h4><p>SQL 够用即可 + 向量库二选一：<br>Chroma（上手快）或 PostgreSQL + pgvector（更贴近生产）</p></div>
+    <div class="card b"><h4>模型</h4><p>国内优先：DeepSeek / 通义 / 豆包<br>对照用：OpenAI / Claude。本地：Ollama（Llama / Qwen）</p></div>
+  </div>
+</div>
+
+<!-- 6月总览 -->
+<div class="section">
+  <h2><span class="icon" style="background:#fef2f2;color:var(--red)">🗺️</span> 6 个月总览（A 路线）</h2>
+  <table class="tb">
+    <tr><th>月份</th><th>主题</th><th>必须产出</th></tr>
+    <tr><td><strong>月 1</strong></td><td>Python 速通 + FastAPI + 调通 LLM API</td><td>Streaming Chat API + 简单前端页</td></tr>
+    <tr><td><strong>月 2</strong></td><td>Prompt / Tool Calling + Next.js AI 产品</td><td>带工具调用的 Chat 应用（简历热身）</td></tr>
+    <tr><td><strong>月 3</strong></td><td>RAG 全链路 + 基础评测</td><td>个人知识库问答（必交项目 ⭐）</td></tr>
+    <tr><td><strong>月 4</strong></td><td>Agent + 毕业项目 MVP</td><td>Agent 项目可演示（必交项目 ⭐）</td></tr>
+    <tr><td><strong>月 5</strong></td><td>工程化打磨：评测 / 成本 / 观测 / 部署</td><td>Docker 上线 + Demo 视频 + README</td></tr>
+    <tr><td><strong>月 6</strong></td><td>面试准备 + 按需补 ML/DL</td><td>可投递简历 + 系统设计能讲清</td></tr>
+  </table>
+  <div class="tip"><strong>原则：</strong>每两周必须有一个能跑、能演示的东西。视频课只服务当前产出，不囤课。</div>
+</div>
+
+<!-- 详细6月计划 -->
+<div class="section">
+  <h2><span class="icon" style="background:#fef2f2;color:var(--red)">📅</span> A路线 · 6个月详细计划</h2>
+
+  <h3>🔹 第 1 个月：Python 速通 + FastAPI + LLM API</h3>
+  <p style="color:var(--sub);font-size:13px;margin-bottom:10px">目标：能写 Python 服务、调通模型 API、前端打通 Streaming</p>
+
+  <div class="week-block"><h4>第1-2周：Python 语法速通（有 JS 基础，两周够）</h4>
+    <ul>
+      <li>和 JS 对比学：缩进、类型、列表推导式、字典/集合/元组、*args/**kwargs、装饰器</li>
+      <li>文件与数据：json / csv、<code>with open()</code>、异常处理、venv + pip</li>
+      <li>异步：asyncio / httpx（对标 Promise/fetch）——后面接 Streaming 会用到</li>
+      <li><tag class="green">实战</tag> CLI 脚本：读 JSON/CSV → 统计 → 输出结果 <a class="ilink" href="https://docs.python.org/zh-cn/3/tutorial/" target="_blank">[Python教程]</a></li>
+      <li><tag class="amber">不做</tag> 本月不深挖 OOP 百科全书、不啃完整教材</li>
+    </ul>
+  </div>
+  <div class="week-block"><h4>第3周：FastAPI + SQL 够用版</h4>
+    <ul>
+      <li>FastAPI：路由、Pydantic、依赖注入、CORS——对标 Express + Zod</li>
+      <li>SQL 只学够用：SELECT / WHERE / JOIN / GROUP BY / LIMIT（3–5 天）</li>
+      <li>Python 取数：<code>pandas.read_sql</code> 或 SQLAlchemy 基础 CRUD</li>
+      <li>GUI：<a class="ilink" href="https://dbeaver.io/" target="_blank">DBeaver</a>；练习可用 SQLite，生产感再上 PostgreSQL</li>
+      <li><tag class="green">实战</tag> FastAPI 提供 CRUD + 一个聚合查询接口</li>
+      <li><tag class="amber">延后</tag> 索引优化、百万级表、完整电商 RFM——有余力再做</li>
+    </ul>
+  </div>
+  <div class="week-block"><h4>第4周：调通 LLM API + Streaming</h4>
+    <ul>
+      <li>先接一个国内模型（DeepSeek / 通义 / 豆包）+ 一个对照（OpenAI/Claude）</li>
+      <li>Chat Completions、System Prompt、多轮历史、Token 与成本意识（tiktoken 或厂商计费）</li>
+      <li>Streaming：SSE；前端用 fetch + ReadableStream 或直接上 Vercel AI SDK</li>
+      <li><tag class="green">实战</tag> FastAPI Streaming 接口 + Next.js 简单 Chat 页跑通端到端</li>
+      <li>参考：<a class="ilink" href="https://sdk.vercel.ai/docs" target="_blank">Vercel AI SDK</a> | <a class="ilink" href="https://platform.openai.com/docs/api-reference/chat" target="_blank">OpenAI Chat</a> | <a class="ilink" href="https://api-docs.deepseek.com/" target="_blank">DeepSeek API</a></li>
+    </ul>
+  </div>
+
+  <h3>🔹 第 2 个月：Prompt + Tool Calling + 前端 AI 产品</h3>
+  <p style="color:var(--sub);font-size:13px;margin-bottom:10px">目标：做出带工具调用的 Chat 产品，把前端优势打出来</p>
+
+  <div class="week-block"><h4>第5-6周：Prompt Engineering + 结构化输出</h4>
+    <ul>
+      <li>Zero-shot → Few-shot → Chain-of-Thought → ReAct 思路</li>
+      <li>System Prompt 设计、角色边界、输出格式约束</li>
+      <li>结构化输出：JSON mode / schema（后面 Agent、评测都靠它）</li>
+      <li>安全基础：Prompt 注入意识、密钥不进前端、基础限流</li>
+      <li><tag class="green">实战</tag> AI 翻译/写作助手：术语表、风格、Streaming、可切换模型</li>
+    </ul>
+  </div>
+  <div class="week-block"><h4>第7-8周：Function Calling / Tools + Next.js 产品化</h4>
+    <ul>
+      <li>Tool Use：让模型调你写的函数（查天气、查库、算数、调内部 API）</li>
+      <li>前端：Next.js + Vercel AI SDK 的 <code>useChat</code> / tool UI 渲染</li>
+      <li>对照读源码：<a class="ilink" href="https://github.com/mckaywrigley/chatbot-ui" target="_blank">chatbot-ui</a>（看前端怎么接 AI，不要整站抄）</li>
+      <li><tag class="green">实战</tag> 带 2–3 个 Tool 的 Chat 应用（例如：查 SQLite + 画简单图表 + 网页摘要）</li>
+      <li>短课：<a class="ilink" href="https://www.deeplearning.ai/short-courses/" target="_blank">DeepLearning.AI short courses</a>（LangChain/Functions 任选 1–2 门，各约 1h）</li>
+    </ul>
+  </div>
+
+  <h3>🔹 第 3 个月：RAG 全链路（核心产出期）</h3>
+  <p style="color:var(--sub);font-size:13px;margin-bottom:10px">目标：独立交付个人知识库问答，并有最简评测</p>
+
+  <div class="week-block"><h4>第9-10周：RAG 架构与实现</h4>
+    <ul>
+      <li>链路：提问 → Embedding → 向量检索 → 拼 Prompt → LLM 回答 → 引用展示</li>
+      <li>文档处理：PDF/MD/HTML → 文本 → Chunking（固定/递归，先别纠结语义切）</li>
+      <li>向量库：Chroma 快速跑通，或 PostgreSQL + pgvector（一个库兼顾结构化+向量）</li>
+      <li>框架：LlamaIndex 或 LangChain 选一个深用，另一个知道即可</li>
+      <li><tag class="green">实战</tag> 把你的笔记/项目文档做成问答助手，前端 Chat UI 展示引用来源</li>
+      <li>参考：<a class="ilink" href="https://github.com/imartinez/privateGPT" target="_blank">privateGPT</a> | <a class="ilink" href="https://github.com/pgvector/pgvector" target="_blank">pgvector</a> | <a class="ilink" href="https://www.trychroma.com/" target="_blank">Chroma</a></li>
+    </ul>
+  </div>
+  <div class="week-block"><h4>第11-12周：检索优化 + 评测（拉开差距）</h4>
+    <ul>
+      <li>检索优化：Hybrid Search、简单 Re-Ranking、Query Rewriting（先各试一种）</li>
+      <li><tag class="purple">必做</tag> 手工建 20 条黄金问答集：问句、应命中文档、期望答案要点</li>
+      <li>评测指标（够用版）：检索命中率、回答是否 grounded、明显幻觉计数</li>
+      <li>观测：接入 <a class="ilink" href="https://langfuse.com/" target="_blank">Langfuse</a>（或同类）看 prompt、延迟、token 成本</li>
+      <li><tag class="green">产出</tag> 必交项目 ⭐「个人知识库」：README + 架构图 + 本地可跑 + 评测记录</li>
+    </ul>
+  </div>
+
+  <h3>🔹 第 4 个月：Agent + 毕业项目 MVP</h3>
+  <p style="color:var(--sub);font-size:13px;margin-bottom:10px">目标：交付 1 个可演示的 Agent 项目（二选一做深）</p>
+
+  <div class="week-block"><h4>第13-14周：Agent 核心能力</h4>
+    <ul>
+      <li>循环：Thought → Action → Observation；何时停、如何限步数</li>
+      <li>Memory：短对话缓冲 / 摘要 / 向量记忆（按项目需要选）</li>
+      <li>多工具编排、失败重试、人机确认（高风险操作要确认）</li>
+      <li>本地模型：Ollama 跑 Qwen / Llama，理解云端 vs 本地权衡</li>
+      <li><tag class="green">实战</tag> 最小 Agent：能串 3 个以上工具完成一个真实任务</li>
+    </ul>
+  </div>
+  <div class="week-block"><h4>第15-16周：毕业项目 MVP（二选一）</h4>
+    <ul>
+      <li><tag class="purple">方向①</tag> AI 代码审查助手：接 GitHub Webhook/API，PR 自动 Review（安全/规范/潜在 Bug） <a class="ilink" href="https://github.com/Codium-ai/pr-agent" target="_blank">[PR-Agent]</a></li>
+      <li><tag class="purple">方向②</tag> AI 数据分析助手：上传 CSV → 自然语言 → SQL/Python → 图表+结论 <a class="ilink" href="https://github.com/Sinaptik-AI/pandas-ai" target="_blank">[pandas-ai]</a></li>
+      <li>MVP 标准：主流程通、有 Chat UI、有错误处理、能给别人演示 3 分钟</li>
+      <li><tag class="amber">不做</tag> 同时开两个毕业项目；Dify 可以参考编排思路，但简历项目要自己写核心链路</li>
+    </ul>
+  </div>
+
+  <h3>🔹 第 5 个月：工程化打磨 + 上线</h3>
+  <p style="color:var(--sub);font-size:13px;margin-bottom:10px">目标：从 Demo 变成可写进简历的完整项目</p>
+
+  <div class="week-block"><h4>第17-20周：可观测、成本、安全、部署</h4>
+    <ul>
+      <li>完善评测集；关键路径加日志与 tracing</li>
+      <li>成本与延迟：缓存常见问、控制 context、模型分级（简单题用小模型）</li>
+      <li>安全：密钥管理、注入防护、工具权限、上传文件沙箱（数据分析方向必做）</li>
+      <li>Docker 一键启动；部署到可访问地址；录 Demo 视频（2–5 分钟）</li>
+      <li>README：问题背景、架构图、技术选型、如何运行、评测结果、踩坑</li>
+      <li>可选加深：看 <a class="ilink" href="https://github.com/langgenius/dify" target="_blank">Dify</a> 的编排/工作流设计，反哺自己的产品化能力</li>
+    </ul>
+  </div>
+
+  <h3>🔹 第 6 个月：面试 + 按需补课</h3>
+  <p style="color:var(--sub);font-size:13px;margin-bottom:10px">目标：能讲清项目与系统设计，按缺口补 ML/数学</p>
+
+  <div class="week-block"><h4>第21-24周：求职准备</h4>
+    <ul>
+      <li>简历定位：「前端工程化 + AI 应用开发」的全栈 AI，突出 2 个必交项目</li>
+      <li>面试高频：怎么设计 RAG、如何降幻觉、Tool Calling 失败怎么办、成本怎么控</li>
+      <li>补 Transformer 直觉：<a class="ilink" href="https://jalammar.github.io/illustrated-transformer/" target="_blank">Illustrated Transformer</a> + 李宏毅 GenAI 选看</li>
+      <li>若目标岗偏 MLE（路线 B）：再打开下方「选修包」</li>
+      <li>持续输出：每周一篇学习/项目笔记（博客或社交平台）</li>
+    </ul>
+  </div>
+</div>
+
+<!-- 选修包 -->
+<div class="section">
+  <h2><span class="icon" style="background:#eef2ff;color:var(--purple)">📦</span> 选修包：数学 / ML / DL（不占主线）</h2>
+  <p style="color:var(--sub);font-size:13px;margin-bottom:12px">只在「看不懂论文符号 / 想往 B 路线转 / 面试明确要求」时启用。A 路线求职不是硬门槛。</p>
+  <div class="grid2">
+    <div class="card p">
+      <h4>数学直觉（约 1–2 周）</h4>
+      <ul>
+        <li>3Blue1Brown 线代 / 微积分（向量、梯度、链式法则）</li>
+        <li>概率：条件概率、期望方差、正态分布直觉</li>
+        <li>目标：公式能翻译成代码，不背证明</li>
+      </ul>
+    </div>
+    <div class="card p">
+      <h4>经典 ML（约 2 周）</h4>
+      <ul>
+        <li>线回归 / 逻辑回归 / 树模型概念</li>
+        <li>Scikit-learn 跑通分类评估（准确率/F1/ROC）</li>
+        <li>选修项目：垃圾邮件分类或 Titanic EDA</li>
+      </ul>
+    </div>
+    <div class="card p">
+      <h4>深度学习 + PyTorch（约 3–4 周）</h4>
+      <ul>
+        <li>MLP / 反向传播直觉；CNN/RNN 知道用途即可</li>
+        <li>PyTorch 训练循环；可选 nanoGPT 跟一遍</li>
+        <li>参考：Karpathy nn-zero-to-hero / nanoGPT</li>
+      </ul>
+    </div>
+    <div class="card p">
+      <h4>微调入门（有余力）</h4>
+      <ul>
+        <li>LoRA / 指令微调概念</li>
+        <li><a class="ilink" href="https://github.com/hiyouga/LLaMA-Factory" target="_blank">LLaMA-Factory</a> 跑通一次小规模微调</li>
+        <li>理解「应用开发」vs「训模型」的岗位边界</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- 练手项目 -->
+<div class="section">
+  <h2><span class="icon" style="background:#fdf2f8;color:#db2777">🛠️</span> 项目清单：2 必交 + 热身 / 选修</h2>
+  <p style="color:var(--sub);font-size:13px;margin-bottom:16px">在职每周约 20h，宁少做深。⭐ 为简历必备；其余可砍。</p>
+
+  <h3>🔸 必交（简历核心）</h3>
+  <div class="grid2">
+    <div class="project-card">
+      <h4>⭐ 个人知识库问答（RAG） <span class="level">★★★</span> <tag class="green">必交</tag></h4>
+      <p class="desc">文档切分 → Embedding → 向量检索 → LLM 回答 + 引用展示。附 20 条评测集与命中/幻觉记录。前端用 Next.js Chat UI。</p>
+      <div class="refs">
+        <a href="https://github.com/imartinez/privateGPT" target="_blank">privateGPT</a>
+        <a href="https://github.com/chatchat-space/Langchain-Chatchat" target="_blank">ChatChat</a>
+        <a href="https://www.trychroma.com/" target="_blank">Chroma</a>
+        <a href="https://github.com/pgvector/pgvector" target="_blank">pgvector</a>
+      </div>
+    </div>
+    <div class="project-card">
+      <h4>⭐ Agent 毕业项目（二选一） <span class="level">★★★★</span> <tag class="green">必交</tag></h4>
+      <p class="desc">① AI 代码审查助手（GitHub + Tool Calling）或 ② AI 数据分析师（自然语言 → SQL/Python → 图表）。Docker 可部署 + Demo 视频。</p>
+      <div class="refs">
+        <a href="https://github.com/Codium-ai/pr-agent" target="_blank">PR-Agent</a>
+        <a href="https://github.com/Sinaptik-AI/pandas-ai" target="_blank">pandas-ai</a>
+        <a href="https://python.langchain.com/docs/how_to/#tools" target="_blank">LangChain Tools</a>
+      </div>
+    </div>
+  </div>
+
+  <h3>🔸 阶段热身（服务当月目标，可砍）</h3>
+  <div class="grid2">
+    <div class="project-card">
+      <h4>1. Streaming Chat 端到端 <span class="level">★★☆</span> <tag class="blue">月1</tag></h4>
+      <p class="desc">FastAPI SSE + Next.js/AI SDK 多轮对话。练 API、Streaming、对话历史。</p>
+      <div class="refs">
+        <a href="https://sdk.vercel.ai/docs" target="_blank">Vercel AI SDK</a>
+        <a href="https://api-docs.deepseek.com/" target="_blank">DeepSeek API</a>
+      </div>
+    </div>
+    <div class="project-card">
+      <h4>2. 带 Tool 的 Chat 应用 <span class="level">★★★</span> <tag class="blue">月2</tag></h4>
+      <p class="desc">2–3 个工具（查库/摘要/计算）+ 结构化输出。为 Agent 打底，也可写进简历作过渡项目。</p>
+      <div class="refs">
+        <a href="https://platform.openai.com/docs/guides/function-calling" target="_blank">Function Calling</a>
+        <a href="https://github.com/mckaywrigley/chatbot-ui" target="_blank">chatbot-ui</a>
+      </div>
+    </div>
+  </div>
+
+  <h3>🔸 选修加深</h3>
+  <div class="grid2">
+    <div class="project-card">
+      <h4>SQL 管道 / pgvector <span class="level">★★☆</span> <tag class="amber">选修</tag></h4>
+      <p class="desc">CSV → DB → pandas 出图；或在 RAG 阶段用 pgvector 替代 Chroma。不必单独开一个月。</p>
+    </div>
+    <div class="project-card">
+      <h4>经典 ML 小项目 <span class="level">★★☆</span> <tag class="amber">选修</tag></h4>
+      <p class="desc">垃圾邮件分类 / Titanic EDA / NumPy 手写线回归。仅在启用「选修包」时做。</p>
+    </div>
+  </div>
+</div>
+
+<!-- 开源项目推荐 -->
+<div class="section">
+  <h2><span class="icon" style="background:#eef2ff;color:var(--accent)">📂</span> 值得学习的开源项目</h2>
+  <p style="color:var(--sub);font-size:13px;margin-bottom:16px">先跑通再读核心。A 路线优先上表；训推相关有余力再看。</p>
+
+  <h3>LLM 应用开发（主线）</h3>
+  <table class="tb">
+    <tr><th>项目</th><th>一句话</th><th>技术栈</th><th>难度</th></tr>
+    <tr><td><a href="https://sdk.vercel.ai/docs" target="_blank">Vercel AI SDK</a></td><td>前端接 LLM Streaming / Tool UI 的最佳实践，月 1–2 就用</td><td>Next.js / TS</td><td>★★☆</td></tr>
+    <tr><td><a href="https://github.com/mckaywrigley/chatbot-ui" target="_blank">chatbot-ui</a></td><td>看前端怎么接 AI，借交互与状态，不整站复制</td><td>Next.js / TS</td><td>★★☆</td></tr>
+    <tr><td><a href="https://github.com/imartinez/privateGPT" target="_blank">privateGPT</a></td><td>本地文档问答，理解 RAG 的最佳起手</td><td>Python / LangChain / Chroma</td><td>★★☆</td></tr>
+    <tr><td><a href="https://github.com/run-llama/llama_index" target="_blank">LlamaIndex</a></td><td>RAG 框架，重点看 ingestion 与 query_engine</td><td>Python</td><td>★★★</td></tr>
+    <tr><td><a href="https://github.com/chatchat-space/Langchain-Chatchat" target="_blank">LangChain-ChatChat</a></td><td>中文知识库完整方案，适合对照实现</td><td>Python / FastAPI</td><td>★★★</td></tr>
+    <tr><td><a href="https://github.com/langgenius/dify" target="_blank">Dify</a></td><td>LLMOps / 可视化编排，学产品化与工作流</td><td>Python / React</td><td>★★★</td></tr>
+  </table>
+
+  <h3>模型直觉 / 训推（选修）</h3>
+  <table class="tb">
+    <tr><th>项目</th><th>一句话</th><th>技术栈</th><th>难度</th></tr>
+    <tr><td><a href="https://github.com/karpathy/micrograd" target="_blank">micrograd</a></td><td>100 行自动求导，理解反向传播</td><td>Python</td><td>★★☆</td></tr>
+    <tr><td><a href="https://github.com/karpathy/nanoGPT" target="_blank">nanoGPT</a></td><td>极简 GPT，建立 Transformer 代码直觉</td><td>Python / PyTorch</td><td>★★★</td></tr>
+    <tr><td><a href="https://github.com/hiyouga/LLaMA-Factory" target="_blank">LLaMA-Factory</a></td><td>一键微调，了解训模型长什么样</td><td>Python / PyTorch</td><td>★★★</td></tr>
+  </table>
+
+  <div class="tip"><strong>源码阅读五步法：</strong>① 跑通 Demo ② 从入口 trace 调用链 ③ 画调用图 ④ 核心处加中文注释 ⑤ 只啃 20% 核心代码</div>
+</div>
+
+<!-- 每日投入 -->
+<div class="section">
+  <h2><span class="icon" style="background:#fffbeb;color:var(--yellow)">⏰</span> 建议每日投入</h2>
+  <div class="grid2">
+    <div class="card y"><h4>在职学习（工作日 2h + 周末 5–6h）</h4><p>工作日：晚 1.5–2h 编码为主，少看长视频<br>周末：半天攻克当前里程碑<br>合计每周约 18–22h<br><strong>最低周标准：</strong>至少合并 1 次可演示进展</p></div>
+    <div class="card y"><h4>全职学习（每天 6–8h）</h4><p>上午学概念 + 下午写项目 + 晚上复盘笔记<br>4 个月可覆盖 A 主线，剩余时间打磨上线与面试</p></div>
+  </div>
+</div>
+
+<!-- 资源 -->
+<div class="section">
+  <h2><span class="icon" style="background:#eff6ff;color:var(--blue)">📚</span> 学习资源（做减法后）</h2>
+  <table class="tb">
+    <tr><th>阶段</th><th>资源</th><th>链接</th><th>说明</th></tr>
+    <tr><td>Python 速成</td><td>莫烦 Python / 官方 Tutorial</td><td><a href="https://www.bilibili.com/video/BV1wW411Y7ai" target="_blank">B站</a> | <a href="https://docs.python.org/zh-cn/3/tutorial/" target="_blank">文档</a></td><td>有 JS 基础看这个就够</td></tr>
+    <tr><td>前端接 AI</td><td>Vercel AI SDK Docs</td><td><a href="https://sdk.vercel.ai/docs" target="_blank">sdk.vercel.ai</a></td><td>月 1 起主用</td></tr>
+    <tr><td>LLM 应用短课</td><td>DeepLearning.AI Short Courses</td><td><a href="https://www.deeplearning.ai/short-courses/" target="_blank">deeplearning.ai</a></td><td>RAG/Agent/Functions，各约 1h</td></tr>
+    <tr><td>Attention 直觉</td><td>The Illustrated Transformer</td><td><a href="https://jalammar.github.io/illustrated-transformer/" target="_blank">jalammar.github.io</a></td><td>图解，必读一篇</td></tr>
+    <tr><td>LLM 原理（选看）</td><td>李宏毅 2024 GenAI</td><td><a href="https://www.bilibili.com/video/BV1BJ4m1e7g8" target="_blank">B站</a></td><td>月 6 或卡壳时看</td></tr>
+    <tr><td>线代/微积分（选修）</td><td>3Blue1Brown</td><td><a href="https://www.bilibili.com/video/BV1ys411472E" target="_blank">线代</a> | <a href="https://www.bilibili.com/video/BV1qW411N7FU" target="_blank">微积分</a></td><td>启用选修包再看</td></tr>
+    <tr><td>ML 入门（选修）</td><td>Andrew Ng ML Specialization</td><td><a href="https://www.coursera.org/specializations/machine-learning-introduction" target="_blank">Coursera</a></td><td>转 B 路线再系统学</td></tr>
+    <tr><td>PyTorch（选修）</td><td>Karpathy / 李沐选章</td><td><a href="https://github.com/karpathy/nn-zero-to-hero" target="_blank">nn-zero-to-hero</a> | <a href="https://d2l.ai/" target="_blank">d2l.ai</a></td><td>不要和主线项目并行全跟</td></tr>
+  </table>
+  <div class="tip"><strong>资源原则：</strong>同时进行的长课程不超过 1 门。优先短课 + 官方文档 + 自己的项目。</div>
+</div>
+
+<!-- 避坑 -->
+<div class="section">
+  <h2><span class="icon" style="background:#fef2f2;color:var(--red)">⚠️</span> 常见误区</h2>
+  <div class="tip"><strong>坑1：先打一年数学/ML 再碰 LLM。</strong>A 路线应先做出 RAG/Agent；数学和 PyTorch 按需补。</div>
+  <div class="tip"><strong>坑2：觉得要会训练大模型才算入行。</strong>多数 AI 应用岗要的是 API、RAG、Agent、工程化与产品感。</div>
+  <div class="tip"><strong>坑3：放弃前端只写 Python。</strong>Next.js + Streaming UI 是差异化；「全栈 AI」比「纯算法新手」更好讲故事。</div>
+  <div class="tip"><strong>坑4：项目贪多。</strong>10 个半成品不如 2 个能演示、有评测、能部署的项目。</div>
+  <div class="tip"><strong>坑5：只看视频不动手 / 不做评测。</strong>没有黄金集和观测，RAG 很难证明「真的有用」。</div>
+  <div class="tip"><strong>坑6：闭门造车不分享。</strong>持续输出学习笔记，逼自己讲清楚，也利于求职曝光。</div>
+</div>
+
+<!-- 能力对标 -->
+<div class="section">
+  <h2><span class="icon" style="background:#ecfdf5;color:var(--green)">📊</span> 能力成长预估（A 主线）</h2>
+  <div class="progress-wrap"><span class="progress-label">Python / FastAPI</span><div class="progress-track"><div class="progress-fill g" style="width:20%"></div></div>→ 85%</div>
+  <div class="progress-wrap"><span class="progress-label">LLM 应用开发</span><div class="progress-track"><div class="progress-fill b" style="width:5%"></div></div>→ 90%</div>
+  <div class="progress-wrap"><span class="progress-label">RAG / 评测 / 观测</span><div class="progress-track"><div class="progress-fill p" style="width:5%"></div></div>→ 85%</div>
+  <div class="progress-wrap"><span class="progress-label">Agent / Tool</span><div class="progress-track"><div class="progress-fill y" style="width:5%"></div></div>→ 80%</div>
+  <div class="progress-wrap"><span class="progress-label">ML / DL 理论</span><div class="progress-track"><div class="progress-fill p" style="width:8%"></div></div>→ 40%（选修可拉高）</div>
+  <div class="tip" style="margin-top:16px"><strong>6 个月后可投：</strong>AI 应用开发、LLM 应用开发、AI 全栈、AI 产品工程师。竞争力 = 前端工程化 + 可上线的 AI 应用。</div>
+</div>
+
+<!-- 技术栈对比 -->
+<div class="section">
+  <h2><span class="icon" style="background:#fdf2f8;color:#db2777">🔀</span> 技术栈：学习前 vs 学习后</h2>
+
+  <table class="tb">
+    <tr><th style="width:22%">技能领域</th><th style="width:39%">📌 学习前（现在）</th><th style="width:39%">✅ 学习后（6个月 · A主线）</th></tr>
+    <tr>
+      <td><strong>编程语言</strong></td>
+      <td>JavaScript / TypeScript（精通）</td>
+      <td>JS/TS（精通）+ <tag class="green">Python（熟练）</tag></td>
+    </tr>
+    <tr>
+      <td><strong>AI 前端</strong></td>
+      <td>普通 Web 前端</td>
+      <td><tag class="green">Next.js + Vercel AI SDK</tag>（Streaming / Tool UI）</td>
+    </tr>
+    <tr>
+      <td><strong>后端</strong></td>
+      <td>Node.js / Express（可能）</td>
+      <td>Node + <tag class="green">FastAPI</tag>（AI 服务主后端）</td>
+    </tr>
+    <tr>
+      <td><strong>数据库</strong></td>
+      <td>ORM 为主（Prisma/TypeORM）</td>
+      <td><tag class="green">SQL 够用</tag> + <tag class="green">Chroma 或 pgvector</tag></td>
+    </tr>
+    <tr>
+      <td><strong>LLM 应用</strong></td>
+      <td>用过 ChatGPT 网页版</td>
+      <td><tag class="green">多模型 API</tag> + Prompt + <tag class="green">Tool Calling</tag> + 结构化输出</td>
+    </tr>
+    <tr>
+      <td><strong>RAG</strong></td>
+      <td>不了解</td>
+      <td><tag class="green">切分→检索→生成→引用</tag> + <tag class="green">基础评测</tag></td>
+    </tr>
+    <tr>
+      <td><strong>Agent</strong></td>
+      <td>不了解</td>
+      <td><tag class="green">多工具编排</tag> + 记忆/限步 + 可演示项目</td>
+    </tr>
+    <tr>
+      <td><strong>工程化</strong></td>
+      <td>Git / CI/CD / Docker（已有）</td>
+      <td>保持 + <tag class="green">观测（Langfuse）</tag> + <tag class="green">成本/安全/部署</tag></td>
+    </tr>
+    <tr>
+      <td><strong>ML / DL</strong></td>
+      <td>不了解</td>
+      <td><tag class="amber">选修</tag>：概念级；转 B 再系统加深</td>
+    </tr>
+    <tr>
+      <td><strong>项目</strong></td>
+      <td>前端项目为主</td>
+      <td><tag class="green">2 个必交 AI 项目</tag>（可演示、可部署、可讲评测）</td>
+    </tr>
+  </table>
+
+  <div class="tip" style="margin-top:16px">
+    <strong>核心竞争力：</strong>从「前端工程师」→「全栈 AI 工程师」。<br>
+    你能一个人搞定：Next.js UI → FastAPI → LLM/RAG/Agent → 评测与观测 → Docker 上线。这是市场上稀缺的复合能力。
+  </div>
+</div>
+
+<p style="text-align:center;color:#aaa;font-size:12px;padding:24px 0">前端工程化 × AI 应用 = 全栈 AI。主线是交付，选修是加深。现在就开始。</p>
+
+</div>
+
+<script>
+(function () {
+  const LS_KEY = 'ai-learning-progress-v1';
+  let progress = null;
+
+  const $ = (id) => document.getElementById(id);
+
+  function calcSummary(p) {
+    const daysCompleted = p.weeks.reduce((n, w) => n + (w.daysDone?.length || 0), 0);
+    const weeksCompleted = p.weeks.filter(w => w.status === 'done').length;
+    const examsPassed = p.weeks.filter(w => w.exam?.status === 'done').length;
+    const current = p.weeks.find(w => w.status === 'in_progress') || p.weeks.find(w => w.status !== 'done') || p.weeks[0];
+    return {
+      daysCompleted,
+      daysTotalEstimate: p.summary?.daysTotalEstimate || 120,
+      weeksCompleted,
+      weeksTotal: p.weeks.length,
+      examsPassed,
+      examsTotal: p.weeks.length,
+      currentWeek: current?.id || 1,
+      currentMonth: current?.month || 1
+    };
+  }
+
+  function overallPct(s) {
+    // weight: days 50% + exams 50%
+    const dayP = s.daysCompleted / s.daysTotalEstimate;
+    const examP = s.examsPassed / s.examsTotal;
+    return Math.min(100, Math.round((dayP * 0.5 + examP * 0.5) * 100));
+  }
+
+  function badgeClass(status) {
+    return 'badge ' + (status || 'pending');
+  }
+
+  function examLabel(status) {
+    return ({ locked: '未解锁', pending: '待考试', ready: '可开考', in_progress: '考试中', done: '已通过' })[status] || status;
+  }
+
+  function weekStatusLabel(status) {
+    return ({ locked: '未开始', in_progress: '进行中', done: '已完成' })[status] || status;
+  }
+
+  function render() {
+    if (!progress) return;
+    const s = calcSummary(progress);
+    progress.summary = { ...progress.summary, ...s };
+    progress.currentWeek = s.currentWeek;
+
+    const pct = overallPct(s);
+    $('overall-fill').style.width = pct + '%';
+    $('overall-label').textContent = `总进度 ${pct}%（天数与周考各占一半权重）`;
+    $('stat-day').textContent = `${s.daysCompleted}/${s.daysTotalEstimate}`;
+    $('stat-week').textContent = `${s.weeksCompleted}/${s.weeksTotal}`;
+    $('stat-exam').textContent = `${s.examsPassed}/${s.examsTotal}`;
+    $('stat-month').textContent = String(s.currentMonth);
+    $('progress-meta').innerHTML = `当前 <strong>第 ${s.currentWeek} 周</strong> · 已开始于 ${progress.startedAt || '—'} · 默认学习时段 ${progress.studyWindowDefault || '20:00-22:20'}`;
+
+    const grid = $('week-grid');
+    grid.innerHTML = progress.weeks.map(w => {
+      const focus = (w.focus || []).map(f => `<tag class="blue">${f}</tag>`).join(' ');
+      const days = (w.daysDone || []).length;
+      const canExam = w.exam?.status === 'pending' || w.exam?.status === 'ready' || w.exam?.status === 'in_progress';
+      const score = w.exam?.score != null ? ` · ${w.exam.score}分` : '';
+      return `<div class="week-card ${w.status === 'in_progress' ? 'current' : ''} ${w.status === 'done' ? 'done' : ''}" data-week="${w.id}">
+        <div class="top">
+          <h4>W${w.id} · ${w.title}</h4>
+          <span class="${badgeClass(w.status)}">${weekStatusLabel(w.status)}</span>
+        </div>
+        <div class="focus">${focus}</div>
+        <div class="checkrow">学习天数标记：${days} 天 ${(w.daysDone||[]).join(', ') || '—'}</div>
+        <div class="checkrow">周考：<span class="${badgeClass(w.exam?.status)}">${examLabel(w.exam?.status)}${score}</span></div>
+        <div class="actions">
+          <button class="btn" type="button" data-action="toggle-week" data-week="${w.id}" ${w.status==='locked'?'disabled':''}>${w.status==='done'?'标为未完成':'标为完成本周'}</button>
+          <a class="btn ${canExam ? 'primary' : ''}" href="exam.html?week=${w.id}" ${w.exam?.status==='locked'?'onclick="return false;" style="pointer-events:none;opacity:.45"':''}>开始考试</a>
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  function saveLocal() {
+    localStorage.setItem(LS_KEY, JSON.stringify(progress));
+  }
+
+  async function loadProgress() {
+    let remote = null;
+    try {
+      const res = await fetch('./progress.json?_=' + Date.now());
+      if (res.ok) remote = await res.json();
+    } catch (_) {}
+
+    const localRaw = localStorage.getItem(LS_KEY);
+    const local = localRaw ? JSON.parse(localRaw) : null;
+
+    // Prefer newer: if remote has more exam/day progress use remote, else merge wisely
+    if (remote && local) {
+      const r = calcSummary(remote);
+      const l = calcSummary(local);
+      progress = (r.daysCompleted + r.examsPassed) >= (l.daysCompleted + l.examsPassed) ? remote : local;
+    } else {
+      progress = remote || local;
+    }
+
+    if (!progress) {
+      $('progress-meta').textContent = '未找到 progress.json，请用本地静态服务器打开，或先完成仓库内进度文件。';
+      return;
+    }
+    render();
+    saveLocal();
+  }
+
+  $('week-grid').addEventListener('click', (e) => {
+    const btn = e.target.closest('[data-action="toggle-week"]');
+    if (!btn) return;
+    const id = Number(btn.dataset.week);
+    const w = progress.weeks.find(x => x.id === id);
+    if (!w || w.status === 'locked') return;
+    if (w.status === 'done') {
+      w.status = 'in_progress';
+      if (w.exam?.status === 'done') {/* keep exam */}
+      else w.exam.status = 'pending';
+    } else {
+      w.status = 'done';
+      if (w.exam?.status === 'locked') w.exam.status = 'pending';
+      // unlock next week
+      const next = progress.weeks.find(x => x.id === id + 1);
+      if (next && next.status === 'locked') {
+        next.status = 'in_progress';
+        if (next.exam.status === 'locked') next.exam.status = 'pending';
+      }
+    }
+    render();
+    saveLocal();
+  });
+
+  $('btn-reload-progress').addEventListener('click', () => loadProgress());
+  $('btn-start-exam').addEventListener('click', () => {
+    const s = calcSummary(progress);
+    const w = progress.weeks.find(x => x.id === s.currentWeek);
+    if (!w) return;
+    if (w.exam?.status === 'locked') {
+      alert('本周考试尚未解锁：先完成本周学习或将本周标为完成。');
+      return;
+    }
+    // copy prompt for Cursor
+    const prompt = `开始第 ${w.id} 周考试`;
+    navigator.clipboard?.writeText(prompt);
+    alert(`已复制指令到剪贴板：\n「${prompt}」\n\n请到 Cursor 对话粘贴发送，我会实时生成题目到 exams/week${String(w.id).padStart(2,'0')}/ \n然后打开 exam.html?week=${w.id} 作答。`);
+    location.href = `exam.html?week=${w.id}`;
+  });
+
+  loadProgress();
+})();
+</script>
+
+</body>
+</html>

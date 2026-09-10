@@ -1,0 +1,442 @@
+{
+  "version": 1,
+  "startedAt": "2026-07-27",
+  "currentDay": 19,
+  "currentWeek": 8,
+  "timezone": "Asia/Shanghai",
+  "studyWindowDefault": "current+2h",
+  "summary": {
+    "daysCompleted": 19,
+    "daysTotalEstimate": 120,
+    "weeksCompleted": 0,
+    "weeksTotal": 24,
+    "examsPassed": 0,
+    "examsTotal": 24
+  },
+  "weeks": [
+    {
+      "id": 1,
+      "month": 1,
+      "title": "Python 语法速通①",
+      "focus": [
+        "变量/条件/循环",
+        "列表字典",
+        "json 读写"
+      ],
+      "daysDone": [
+        "day01",
+        "day02",
+        "day03",
+        "day04"
+      ],
+      "status": "in_progress",
+      "exam": {
+        "status": "pending",
+        "score": null,
+        "takenAt": null
+      }
+    },
+    {
+      "id": 2,
+      "month": 1,
+      "title": "Python 语法速通②",
+      "focus": [
+        "函数进阶",
+        "csv/异常",
+        "asyncio/httpx 入门"
+      ],
+      "daysDone": [],
+      "status": "locked",
+      "exam": {
+        "status": "locked",
+        "score": null,
+        "takenAt": null
+      }
+    },
+    {
+      "id": 3,
+      "month": 1,
+      "title": "FastAPI + SQL 够用版",
+      "focus": [
+        "FastAPI",
+        "Pydantic",
+        "SQL JOIN/GROUP BY"
+      ],
+      "daysDone": [
+        "day05",
+        "day06",
+        "day07",
+        "day08"
+      ],
+      "status": "in_progress",
+      "exam": {
+        "status": "pending",
+        "score": null,
+        "takenAt": null
+      }
+    },
+    {
+      "id": 4,
+      "month": 1,
+      "title": "LLM API + Streaming",
+      "focus": [
+        "Chat Completions",
+        "SSE Streaming",
+        "多模型接入"
+      ],
+      "daysDone": [
+        "day09",
+        "day10"
+      ],
+      "status": "in_progress",
+      "exam": {
+        "status": "pending",
+        "score": null,
+        "takenAt": null
+      }
+    },
+    {
+      "id": 5,
+      "month": 2,
+      "title": "Prompt Engineering",
+      "focus": [
+        "Zero/Few-shot",
+        "CoT",
+        "System Prompt"
+      ],
+      "daysDone": [
+        "day12"
+      ],
+      "status": "in_progress",
+      "exam": {
+        "status": "pending",
+        "score": null,
+        "takenAt": null
+      }
+    },
+    {
+      "id": 6,
+      "month": 2,
+      "title": "结构化输出与安全",
+      "focus": [
+        "JSON mode",
+        "schema",
+        "注入与密钥"
+      ],
+      "daysDone": [
+        "day11"
+      ],
+      "status": "in_progress",
+      "exam": {
+        "status": "pending",
+        "score": null,
+        "takenAt": null
+      }
+    },
+    {
+      "id": 7,
+      "month": 2,
+      "title": "Tool Calling",
+      "focus": [
+        "Function Calling",
+        "多工具编排"
+      ],
+      "daysDone": [
+        "day13",
+        "day14",
+        "day15"
+      ],
+      "status": "in_progress",
+      "exam": {
+        "status": "pending",
+        "score": null,
+        "takenAt": null
+      }
+    },
+    {
+      "id": 8,
+      "month": 2,
+      "title": "Next.js AI 产品化",
+      "focus": [
+        "Vercel AI SDK",
+        "useChat",
+        "Tool UI"
+      ],
+      "daysDone": [
+        "day16",
+        "day17",
+        "day18",
+        "day19"
+      ],
+      "status": "in_progress",
+      "exam": {
+        "status": "pending",
+        "score": null,
+        "takenAt": null
+      }
+    },
+    {
+      "id": 9,
+      "month": 3,
+      "title": "RAG 架构",
+      "focus": [
+        "Embedding",
+        "Chunking",
+        "向量检索"
+      ],
+      "daysDone": [],
+      "status": "locked",
+      "exam": {
+        "status": "locked",
+        "score": null,
+        "takenAt": null
+      }
+    },
+    {
+      "id": 10,
+      "month": 3,
+      "title": "RAG 实现",
+      "focus": [
+        "Chroma/pgvector",
+        "引用展示"
+      ],
+      "daysDone": [],
+      "status": "locked",
+      "exam": {
+        "status": "locked",
+        "score": null,
+        "takenAt": null
+      }
+    },
+    {
+      "id": 11,
+      "month": 3,
+      "title": "检索优化",
+      "focus": [
+        "Hybrid",
+        "Re-rank",
+        "Query Rewrite"
+      ],
+      "daysDone": [],
+      "status": "locked",
+      "exam": {
+        "status": "locked",
+        "score": null,
+        "takenAt": null
+      }
+    },
+    {
+      "id": 12,
+      "month": 3,
+      "title": "评测与观测",
+      "focus": [
+        "黄金集",
+        "命中率",
+        "Langfuse"
+      ],
+      "daysDone": [],
+      "status": "locked",
+      "exam": {
+        "status": "locked",
+        "score": null,
+        "takenAt": null
+      }
+    },
+    {
+      "id": 13,
+      "month": 4,
+      "title": "Agent 核心循环",
+      "focus": [
+        "Thought-Action-Observation",
+        "限步"
+      ],
+      "daysDone": [],
+      "status": "locked",
+      "exam": {
+        "status": "locked",
+        "score": null,
+        "takenAt": null
+      }
+    },
+    {
+      "id": 14,
+      "month": 4,
+      "title": "Memory 与多工具",
+      "focus": [
+        "Memory",
+        "失败重试",
+        "Ollama"
+      ],
+      "daysDone": [],
+      "status": "locked",
+      "exam": {
+        "status": "locked",
+        "score": null,
+        "takenAt": null
+      }
+    },
+    {
+      "id": 15,
+      "month": 4,
+      "title": "毕业项目 MVP①",
+      "focus": [
+        "选题",
+        "主流程打通"
+      ],
+      "daysDone": [],
+      "status": "locked",
+      "exam": {
+        "status": "locked",
+        "score": null,
+        "takenAt": null
+      }
+    },
+    {
+      "id": 16,
+      "month": 4,
+      "title": "毕业项目 MVP②",
+      "focus": [
+        "可演示",
+        "错误处理"
+      ],
+      "daysDone": [],
+      "status": "locked",
+      "exam": {
+        "status": "locked",
+        "score": null,
+        "takenAt": null
+      }
+    },
+    {
+      "id": 17,
+      "month": 5,
+      "title": "成本与延迟",
+      "focus": [
+        "缓存",
+        "模型分级",
+        "token"
+      ],
+      "daysDone": [],
+      "status": "locked",
+      "exam": {
+        "status": "locked",
+        "score": null,
+        "takenAt": null
+      }
+    },
+    {
+      "id": 18,
+      "month": 5,
+      "title": "安全与部署",
+      "focus": [
+        "密钥",
+        "沙箱",
+        "Docker"
+      ],
+      "daysDone": [],
+      "status": "locked",
+      "exam": {
+        "status": "locked",
+        "score": null,
+        "takenAt": null
+      }
+    },
+    {
+      "id": 19,
+      "month": 5,
+      "title": "打磨上线",
+      "focus": [
+        "README",
+        "架构图",
+        "观测完善"
+      ],
+      "daysDone": [],
+      "status": "locked",
+      "exam": {
+        "status": "locked",
+        "score": null,
+        "takenAt": null
+      }
+    },
+    {
+      "id": 20,
+      "month": 5,
+      "title": "Demo 与交付",
+      "focus": [
+        "Demo 视频",
+        "一键启动"
+      ],
+      "daysDone": [],
+      "status": "locked",
+      "exam": {
+        "status": "locked",
+        "score": null,
+        "takenAt": null
+      }
+    },
+    {
+      "id": 21,
+      "month": 6,
+      "title": "面试：RAG 系统设计",
+      "focus": [
+        "架构口述",
+        "降幻觉"
+      ],
+      "daysDone": [],
+      "status": "locked",
+      "exam": {
+        "status": "locked",
+        "score": null,
+        "takenAt": null
+      }
+    },
+    {
+      "id": 22,
+      "month": 6,
+      "title": "面试：项目深挖",
+      "focus": [
+        "权衡",
+        "故障排查"
+      ],
+      "daysDone": [],
+      "status": "locked",
+      "exam": {
+        "status": "locked",
+        "score": null,
+        "takenAt": null
+      }
+    },
+    {
+      "id": 23,
+      "month": 6,
+      "title": "选修补强 / 查漏",
+      "focus": [
+        "按缺口补",
+        "错题复盘"
+      ],
+      "daysDone": [],
+      "status": "locked",
+      "exam": {
+        "status": "locked",
+        "score": null,
+        "takenAt": null
+      }
+    },
+    {
+      "id": 24,
+      "month": 6,
+      "title": "总复习与投递",
+      "focus": [
+        "简历",
+        "模拟面试"
+      ],
+      "daysDone": [],
+      "status": "locked",
+      "exam": {
+        "status": "locked",
+        "score": null,
+        "takenAt": null
+      }
+    }
+  ]
+}

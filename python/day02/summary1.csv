@@ -1,0 +1,2 @@
+total,avg,max_score,passed,excellent,class_stats
+6,80.7,Bob,5,"[{'name': 'Bob', 'score': 95, 'class': 'B'}, {'name': 'Eve', 'score': 92, 'class': 'A'}]","{'A': {'count': 3, 'avg': 80.7}, 'B': {'count': 3, 'avg': 80.7}}"

@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Day15 · Score Agent</title>
+  <style>
+    :root {
+      --bg: #f6f3ee;
+      --ink: #1c1917;
+      --muted: #78716c;
+      --line: #e7e5e4;
+      --accent: #0f766e;
+      --card: #fffcf8;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+      color: var(--ink);
+      background:
+        radial-gradient(ellipse 80% 50% at 10% 0%, #d8ebe7 0%, transparent 55%),
+        radial-gradient(ellipse 60% 40% at 100% 100%, #f0e6d8 0%, transparent 50%),
+        var(--bg);
+    }
+    main {
+      max-width: 40rem;
+      margin: 0 auto;
+      padding: 2.5rem 1.25rem 3rem;
+    }
+    .brand {
+      font-size: 0.75rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin: 0 0 0.5rem;
+    }
+    h1 {
+      font-size: clamp(1.75rem, 4vw, 2.25rem);
+      font-weight: 600;
+      margin: 0 0 0.4rem;
+      line-height: 1.2;
+    }
+    .lead {
+      margin: 0 0 1.75rem;
+      color: var(--muted);
+      font-size: 1rem;
+      line-height: 1.5;
+    }
+    label {
+      display: block;
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-bottom: 0.4rem;
+    }
+    textarea {
+      width: 100%;
+      min-height: 5.5rem;
+      padding: 0.85rem 1rem;
+      border: 1px solid var(--line);
+      border-radius: 0.35rem;
+      background: var(--card);
+      font: inherit;
+      resize: vertical;
+    }
+    .actions {
+      display: flex;
+      gap: 0.75rem;
+      align-items: center;
+      margin-top: 0.75rem;
+    }
+    button {
+      appearance: none;
+      border: none;
+      background: var(--accent);
+      color: #fff;
+      padding: 0.65rem 1.25rem;
+      border-radius: 0.35rem;
+      font: inherit;
+      font-size: 0.95rem;
+      cursor: pointer;
+    }
+    button:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+    }
+    .status {
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+    .status.err { color: #b91c1c; }
+    section {
+      margin-top: 1.75rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid var(--line);
+    }
+    section h2 {
+      font-size: 1rem;
+      margin: 0 0 0.65rem;
+      letter-spacing: 0.02em;
+    }
+    #answer {
+      white-space: pre-wrap;
+      line-height: 1.55;
+      min-height: 1.5rem;
+    }
+    #steps {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      gap: 0.65rem;
+    }
+    #steps li {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 0.35rem;
+      padding: 0.75rem 0.9rem;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 0.78rem;
+      line-height: 1.45;
+    }
+    #steps .tool {
+      color: var(--accent);
+      font-weight: 600;
+      margin-bottom: 0.35rem;
+      font-family: inherit;
+      font-size: 0.85rem;
+    }
+    .empty { color: var(--muted); font-size: 0.9rem; }
+  </style>
+</head>
+<body>
+  <main>
+    <p class="brand">Day15 · Score Agent</p>
+    <h1>问成绩，看工具怎么走</h1>
+    <p class="lead">请求打到本机 /agent/chat；回答下方展开每一步 tool 调用。</p>
+
+    <label for="q">你的问题</label>
+    <textarea id="q">比较一下 Bob 和平均分，谁更高？差多少？</textarea>
+    <div class="actions">
+      <button id="send" type="button">发送</button>
+      <span class="status" id="status"></span>
+    </div>
+
+    <section>
+      <h2>回答</h2>
+      <div id="answer" class="empty">尚未提问</div>
+    </section>
+
+    <section>
+      <h2>工具轨迹</h2>
+      <ul id="steps">
+        <li class="empty" style="border:none;background:transparent;padding:0">发送后显示 steps</li>
+      </ul>
+    </section>
+  </main>
+
+  <script>
+    const q = document.getElementById("q");
+    const send = document.getElementById("send");
+    const status = document.getElementById("status");
+    const answer = document.getElementById("answer");
+    const stepsEl = document.getElementById("steps");
+
+    function setStatus(text, isErr) {
+      status.textContent = text || "";
+      status.classList.toggle("err", !!isErr);
+    }
+
+    function renderSteps(steps) {
+      stepsEl.innerHTML = "";
+      if (!steps || !steps.length) {
+        const li = document.createElement("li");
+        li.className = "empty";
+        li.style.border = "none";
+        li.style.background = "transparent";
+        li.style.padding = "0";
+        li.textContent = "本次没有调用工具";
+        stepsEl.appendChild(li);
+        return;
+      }
+      for (const s of steps) {
+        const li = document.createElement("li");
+        const title = document.createElement("div");
+        title.className = "tool";
+        title.textContent = s.tool;
+        const body = document.createElement("div");
+        body.textContent =
+          "args: " + JSON.stringify(s.arguments, null, 0) +
+          "\nresult: " + JSON.stringify(s.result, null, 0);
+        li.appendChild(title);
+        li.appendChild(body);
+        stepsEl.appendChild(li);
+      }
+    }
+
+    send.onclick = async () => {
+      const message = q.value.trim();
+      if (!message) {
+        setStatus("请先输入问题", true);
+        return;
+      }
+      send.disabled = true;
+      setStatus("请求中…");
+      answer.classList.remove("empty");
+      answer.textContent = "";
+      try {
+        const resp = await fetch("/agent/chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message, temperature: 0 }),
+        });
+        const data = await resp.json().catch(() => ({}));
+        if (!resp.ok) {
+          const detail = data.detail || ("HTTP " + resp.status);
+          setStatus(String(detail), true);
+          answer.textContent = "";
+          answer.classList.add("empty");
+          renderSteps([]);
+          return;
+        }
+        answer.textContent = data.answer || "(空回答)";
+        renderSteps(data.steps || []);
+        setStatus(data.model ? "model: " + data.model : "完成");
+      } catch (e) {
+        setStatus(String(e), true);
+      } finally {
+        send.disabled = false;
+      }
+    };
+  </script>
+</body>
+</html>

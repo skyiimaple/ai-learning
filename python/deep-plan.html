@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>前端转 AI · B 路线（ML 工程师）</title>
+<style>
+:root{
+  --bg:#f8f9fb; --card:#fff; --text:#1a1a2e; --sub:#5a6170; --border:#e8ecf1;
+  --accent:#4f6ef7; --green:#10b981; --yellow:#f59e0b; --red:#ef4444;
+  --blue:#3b82f6; --purple:#8b5cf6;
+  --shadow:0 1px 3px rgba(0,0,0,0.06),0 1px 2px rgba(0,0,0,0.04);
+  --shadow-lg:0 4px 16px rgba(0,0,0,0.06);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text);line-height:1.75;-webkit-font-smoothing:antialiased}
+
+.header{background:linear-gradient(135deg,#0f172a 0%,#1e3a5f 45%,#312e81 100%);padding:48px 32px;text-align:center;color:#fff}
+.header h1{font-size:28px;font-weight:800;margin-bottom:8px;color:#fff}
+.header .sub{color:#94a3b8;font-size:15px;max-width:640px;margin:0 auto}
+.header .badge{display:inline-block;margin-top:14px;padding:4px 12px;border-radius:999px;background:rgba(99,102,241,.25);color:#c7d2fe;font-size:12px;font-weight:600}
+
+.container{max-width:860px;margin:0 auto;padding:24px 20px}
+
+.section{background:var(--card);border-radius:14px;padding:28px 32px;margin-bottom:16px;box-shadow:var(--shadow);border:1px solid var(--border)}
+.section h2{font-size:19px;font-weight:700;margin-bottom:18px;display:flex;align-items:center;gap:10px}
+.section h3{font-size:15px;font-weight:700;color:var(--accent);margin:22px 0 10px}
+.section h3:first-of-type{margin-top:0}
+.section .icon{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0}
+
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.grid3{display:grid;grid-template-columns:repeat(auto-fill,minmax(255px,1fr));gap:12px}
+.card{border-radius:10px;padding:16px 18px;border:1px solid var(--border);background:#fafbfc;transition:box-shadow 0.15s}
+.card:hover{box-shadow:var(--shadow-lg)}
+.card h4{font-size:14px;font-weight:700;margin-bottom:6px}
+.card p,.card li{font-size:13px;color:var(--sub);line-height:1.7}
+.card ul{list-style:none;margin-top:6px}
+.card li{padding:2px 0}
+.card li::before{content:'▸ ';font-weight:700;color:var(--accent)}
+.card.g{border-left:3px solid var(--green)}
+.card.p{border-left:3px solid var(--accent)}
+.card.b{border-left:3px solid var(--blue)}
+.card.r{border-left:3px solid var(--red)}
+.card.y{border-left:3px solid var(--yellow)}
+
+tag{display:inline-block;padding:2px 7px;border-radius:6px;font-size:11px;font-weight:600;margin-right:2px}
+tag.green{background:#ecfdf5;color:#059669}
+tag.purple{background:#eef2ff;color:#4f46e5}
+tag.blue{background:#eff6ff;color:#2563eb}
+tag.amber{background:#fffbeb;color:#d97706}
+tag.red{background:#fef2f2;color:#dc2626}
+
+.week-block{margin:10px 0 18px 12px;padding:12px 16px;border-left:3px solid var(--border);border-radius:0 8px 8px 0;background:#fafbfc}
+.week-block h4{font-size:14px;font-weight:700;color:var(--blue);margin-bottom:6px}
+.week-block ul{list-style:none}
+.week-block li{margin:5px 0;font-size:13px;color:var(--sub);position:relative;padding-left:14px}
+.week-block li::before{content:'•';position:absolute;left:0;color:#c4c9d4}
+
+.tip{background:#fffbeb;border-left:3px solid var(--yellow);padding:12px 16px;border-radius:8px;font-size:13px;margin:10px 0;color:#92400e}
+.tip strong{color:#b45309}
+.tip.blue{background:#eff6ff;border-left-color:var(--blue);color:#1e40af}
+.tip.blue strong{color:#1d4ed8}
+.tip.green{background:#ecfdf5;border-left-color:var(--green);color:#065f46}
+.tip.green strong{color:#047857}
+
+.tb{width:100%;border-collapse:collapse;margin:10px 0;font-size:13px}
+.tb th{background:#f8f9fc;padding:9px 12px;text-align:left;color:var(--sub);font-weight:600;border-bottom:2px solid var(--border)}
+.tb td{padding:9px 12px;border-bottom:1px solid var(--border);vertical-align:top}
+.tb tr:hover td{background:#fafbfd}
+.tb a{color:var(--accent);text-decoration:none;font-weight:500}
+.tb a:hover{text-decoration:underline}
+
+.progress-wrap{display:flex;align-items:center;gap:10px;margin:8px 0}
+.progress-label{width:130px;font-size:13px;text-align:right;color:var(--sub)}
+.progress-track{flex:1;height:8px;background:#e8ecf1;border-radius:10px;overflow:hidden}
+.progress-fill{height:100%;border-radius:10px}
+.progress-fill.g{background:var(--green)}.progress-fill.p{background:var(--accent)}
+.progress-fill.b{background:var(--blue)}.progress-fill.y{background:var(--yellow)}
+
+.project-card{background:#fafbfc;border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:8px}
+.project-card h4{font-size:14px;font-weight:700;margin-bottom:4px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.project-card .desc{font-size:13px;color:var(--sub);margin-bottom:8px;line-height:1.6}
+.project-card .refs{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.project-card .refs a{font-size:12px;padding:3px 10px;border-radius:14px;background:#eef2ff;color:var(--accent);text-decoration:none;font-weight:500;white-space:nowrap}
+.project-card .refs a:hover{background:#dde4ff}
+.project-card .level{font-size:11px;color:#aaa;font-weight:400}
+
+.ilink{color:var(--accent);font-weight:500;text-decoration:none}
+.ilink:hover{text-decoration:underline}
+
+@media(max-width:680px){
+  .grid2{grid-template-columns:1fr}
+  .header{padding:32px 16px}
+  .header h1{font-size:22px}
+  .section{padding:20px}
+  .progress-label{width:100px}
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>🅱️ 前端工程师 → ML 工程师</h1>
+  <div class="sub">B 路线专用计划：数学直觉 → 经典 ML → PyTorch → 微调 / 推理部署。目标岗位 MLE / 算法工程，不是纯调 API 的应用岗。</div>
+  <div class="badge">建议周期 12 个月（在职）· 全职可压缩到 8–10 个月</div>
+</div>
+
+<div class="container">
+
+<!-- 和 A 的关系 -->
+<div class="section">
+  <h2><span class="icon" style="background:#eef2ff;color:var(--accent)">📌</span> 和 A 路线怎么分工</h2>
+  <table class="tb">
+    <tr><th>文档</th><th>路线</th><th>你该用哪份</th></tr>
+    <tr>
+      <td><a href="./ai-career-plan.html">ai-career-plan.html</a></td>
+      <td><tag class="green">A</tag> AI 应用开发</td>
+      <td>Prompt / RAG / Agent / FastAPI 产品。交付快、前端优势大</td>
+    </tr>
+    <tr>
+      <td><strong>deep-plan.html（本页）</strong></td>
+      <td><tag class="purple">B</tag> ML 工程师</td>
+      <td>训练、评估、微调、推理服务。周期更长，数学与实验是主线</td>
+    </tr>
+  </table>
+  <div class="tip blue"><strong>本页策略：</strong>主线只走 B。LLM 应用（RAG/Agent）降为「够用即可」的补课，不占前 8 个月主线。你已有的 Day01–05 Python / FastAPI 基础可以<strong>直接加速第 1 月</strong>，不必从零重学语法。</div>
+  <div class="grid3" style="margin-top:14px">
+    <div class="card p"><h4>🅱️ 本页主线</h4><p>NumPy / Pandas → 数学 → sklearn → PyTorch → Transformer → LoRA 微调 → 推理部署</p></div>
+    <div class="card b"><h4>岗位画像</h4><p>MLE、算法工程师、模型应用工程（偏训推）。面试会问梯度、过拟合、训练循环、评估指标</p></div>
+    <div class="card y"><h4>诚实预期</h4><p>在职 12 个月才稳；6 个月只能打到「能训小模型 + 懂 Transformer」。大厂研究院另说</p></div>
+  </div>
+</div>
+
+<!-- 前端优势 -->
+<div class="section">
+  <h2><span class="icon" style="background:#ecfdf5;color:var(--green)">💎</span> 前端背景在 B 路线的用处</h2>
+  <div class="grid2">
+    <div class="card g"><h4>工程与调试</h4><p>实验可复现、脚本化、日志、Git——比「只会调参」的科班更像能上线的 MLE</p></div>
+    <div class="card g"><h4>异步 / 流水线直觉</h4><p>DataLoader、训练循环、推理服务，对标你熟悉的 pipeline / stream</p></div>
+    <div class="card g"><h4>可视化与 Demo</h4><p>Gradio / Streamlit / 简单前端把指标和预测结果讲清楚，面试加分</p></div>
+    <div class="card g"><h4>别的坑要补</h4><p>矩阵、概率、损失曲面没有前端等价物——靠 3B1B + 手写小实现补，不靠死背教材</p></div>
+  </div>
+</div>
+
+<!-- 总览 -->
+<div class="section">
+  <h2><span class="icon" style="background:#fef2f2;color:var(--red)">🗺️</span> 12 个月总览（B 路线）</h2>
+  <table class="tb">
+    <tr><th>阶段</th><th>月份</th><th>主题</th><th>必须产出</th></tr>
+    <tr><td>基础</td><td><strong>1–2</strong></td><td>Python 工程化 + NumPy/Pandas</td><td>EDA 报告 + CLI/实验脚本</td></tr>
+    <tr><td>经典 ML</td><td><strong>3–4</strong></td><td>数学直觉 + sklearn 全流程</td><td>分类项目 + 手写线回归</td></tr>
+    <tr><td>深度学习</td><td><strong>5–7</strong></td><td>MLP / CNN / NLP + PyTorch</td><td>MNIST/CIFAR + 文本分类</td></tr>
+    <tr><td>现代 LLM</td><td><strong>8–10</strong></td><td>Transformer + 微调 + 评测</td><td>nanoGPT 级实现 + LoRA 一次</td></tr>
+    <tr><td>落地</td><td><strong>11–12</strong></td><td>推理服务 + 毕业项目 + 面试</td><td>可演示训推项目 + 简历口径</td></tr>
+  </table>
+  <div class="tip"><strong>原则：</strong>每个月至少一个「能复现的实验」（固定随机种子、记超参、出指标表）。视频课只服务当前实验，不囤课。</div>
+</div>
+
+<!-- 详细计划 -->
+<div class="section">
+  <h2><span class="icon" style="background:#fef2f2;color:var(--red)">📅</span> B 路线 · 分月详细计划</h2>
+
+  <h3>🔹 第 1–2 月：Python + 数据底座</h3>
+  <p style="color:var(--sub);font-size:13px;margin-bottom:10px">目标：把数据变成 ndarray/DataFrame 并做完清洗与可视化；实验可脚本化复现</p>
+
+  <div class="week-block"><h4>第1–3周：Python 工程化（有 JS 可压缩）</h4>
+    <ul>
+      <li>语法对照 JS：推导式、字典/集合、函数、异常、pathlib、venv</li>
+      <li>工程：argparse / 日志 / 配置 JSON、类型标注入门</li>
+      <li>OOP 够用即可：类、dataclass、简单继承——不啃设计模式大全</li>
+      <li><tag class="green">实战</tag> 数据目录批处理 CLI：读 csv/json → 校验 → 汇总报告</li>
+      <li><tag class="amber">可跳过</tag> 若已完成仓库 Day01–04，本段以「补 OOP + 测试习惯」为主</li>
+    </ul>
+  </div>
+  <div class="week-block"><h4>第4–6周：NumPy</h4>
+    <ul>
+      <li>ndarray、广播、索引、reshape、向量化（少写 Python for）</li>
+      <li>线性代数接口：dot、matmul、linalg（先会用，推导放第 3 月）</li>
+      <li><tag class="green">实战</tag> 纯 NumPy 实现线性回归（梯度下降），画 loss 曲线 <a class="ilink" href="https://github.com/patrickloeber/MLfromscratch" target="_blank">[参考]</a></li>
+    </ul>
+  </div>
+  <div class="week-block"><h4>第7–8周：Pandas + 可视化</h4>
+    <ul>
+      <li>DataFrame 选择/过滤/groupby/merge、缺失值、类别编码直觉</li>
+      <li>matplotlib / seaborn：分布、相关、混淆矩阵以后会反复用</li>
+      <li><tag class="green">实战</tag> Titanic 或自选 CSV 完整 EDA 报告（Jupyter 或脚本 + 图） <a class="ilink" href="https://www.kaggle.com/learn" target="_blank">[Kaggle Learn]</a></li>
+    </ul>
+  </div>
+
+  <h3>🔹 第 3–4 月：数学直觉 + 经典 ML</h3>
+  <p style="color:var(--sub);font-size:13px;margin-bottom:10px">目标：公式能翻译成代码；能独立跑完「数据→特征→训练→评估」闭环</p>
+
+  <div class="week-block"><h4>第9–11周：数学（直觉优先）</h4>
+    <ul>
+      <li><tag class="blue">视频</tag> 3Blue1Brown 线代：向量、矩阵乘法、特征值直觉 <a class="ilink" href="https://www.bilibili.com/video/BV1ys411472E" target="_blank">[B站]</a></li>
+      <li><tag class="blue">视频</tag> 3Blue1Brown 微积分：导数、梯度、链式法则 <a class="ilink" href="https://www.bilibili.com/video/BV1qW411N7FU" target="_blank">[B站]</a></li>
+      <li>概率：条件概率、贝叶斯、期望方差、正态分布、似然直觉</li>
+      <li><tag class="purple">标准</tag> 不背证明；卡壳时「打开 3B1B / 用 NumPy 验算」即可</li>
+    </ul>
+  </div>
+  <div class="week-block"><h4>第12–16周：机器学习核心</h4>
+    <ul>
+      <li>监督 / 无监督概念；训练集·验证·测试；过拟合与正则（L1/L2）</li>
+      <li>线回归、逻辑回归、树模型（GBDT 概念级）、K-Means</li>
+      <li>评估：Accuracy / Precision / Recall / F1 / ROC-AUC、混淆矩阵</li>
+      <li>Pipeline：缺失值处理、StandardScaler、交叉验证、学习曲线</li>
+      <li><tag class="green">实战</tag> sklearn 在 2–3 个数据集上对比模型；⭐ 垃圾邮件或新闻分类全流程</li>
+      <li>主课：<a class="ilink" href="https://www.coursera.org/specializations/machine-learning-introduction" target="_blank">Andrew Ng ML Specialization</a>（可跟 B 站）</li>
+    </ul>
+  </div>
+
+  <h3>🔹 第 5–7 月：深度学习 + PyTorch</h3>
+  <p style="color:var(--sub);font-size:13px;margin-bottom:10px">目标：手写训练循环；理解反传与优化器；CNN/序列模型会改会训</p>
+
+  <div class="week-block"><h4>第17–20周：神经网络基础</h4>
+    <ul>
+      <li>MLP、激活函数、交叉熵；Batch / Epoch / LR</li>
+      <li>反向传播直觉；SGD → Momentum → Adam</li>
+      <li><tag class="green">实战</tag> micrograd 或自写小自动求导；NumPy 两层网打 MNIST 子集 <a class="ilink" href="https://github.com/karpathy/micrograd" target="_blank">[micrograd]</a> <a class="ilink" href="https://github.com/karpathy/nn-zero-to-hero" target="_blank">[nn-zero-to-hero]</a></li>
+    </ul>
+  </div>
+  <div class="week-block"><h4>第21–24周：PyTorch 熟练</h4>
+    <ul>
+      <li>Tensor、autograd、nn.Module、Dataset/DataLoader</li>
+      <li>标准训练循环：zero_grad → forward → loss → backward → step</li>
+      <li>保存 checkpoint、TensorBoard / 简单日志</li>
+      <li><tag class="green">实战</tag> CNN 打 MNIST/CIFAR；文本分类（Embedding + RNN/LSTM 或短 Transformer）</li>
+      <li>教材：<a class="ilink" href="https://pytorch.org/tutorials/" target="_blank">PyTorch Tutorials</a> | <a class="ilink" href="https://d2l.ai/" target="_blank">李沐 d2l</a>（选章）| <a class="ilink" href="https://course.fast.ai/" target="_blank">fast.ai</a>（可并行）</li>
+    </ul>
+  </div>
+  <div class="week-block"><h4>第25–28周：CNN / 正则 / 迁移学习</h4>
+    <ul>
+      <li>卷积、ResNet 跳跃连接直觉；数据增强、Dropout、BN、Early Stopping</li>
+      <li>迁移学习：冻骨干 + 换头微调；学习率调度</li>
+      <li><tag class="green">实战</tag> 小图像分类项目：预训练 backbone + 自己的数据集（或公开子集）</li>
+    </ul>
+  </div>
+
+  <h3>🔹 第 8–10 月：Transformer + 微调</h3>
+  <p style="color:var(--sub);font-size:13px;margin-bottom:10px">目标：讲清 Attention；能跑通一次指令微调并做基础评测</p>
+
+  <div class="week-block"><h4>第29–32周：Transformer / LLM 原理</h4>
+    <ul>
+      <li>Self-Attention、Multi-Head、位置编码；Encoder vs Decoder-only</li>
+      <li>Tokenizer（BPE）、预训练目标直觉、Scaling 粗概念</li>
+      <li><tag class="green">实战</tag> 跟完 nanoGPT 或自写迷你 GPT 做字符级生成 <a class="ilink" href="https://github.com/karpathy/nanoGPT" target="_blank">[nanoGPT]</a></li>
+      <li>阅读：<a class="ilink" href="https://jalammar.github.io/illustrated-transformer/" target="_blank">Illustrated Transformer</a> | <a class="ilink" href="https://www.bilibili.com/video/BV1BJ4m1e7g8" target="_blank">李宏毅 GenAI</a></li>
+    </ul>
+  </div>
+  <div class="week-block"><h4>第33–36周：Hugging Face + LoRA 微调</h4>
+    <ul>
+      <li>transformers：Tokenizer / Model / Trainer 或自定义 loop</li>
+      <li>PEFT / LoRA：秩、可训参数量、显存粗估；指令数据格式</li>
+      <li>评测：hold-out 集、简单自动指标 + 人工抽检（别只报 train loss）</li>
+      <li><tag class="green">实战</tag> 用 <a class="ilink" href="https://github.com/hiyouga/LLaMA-Factory" target="_blank">LLaMA-Factory</a> 或 PEFT 对小模型做一次领域微调（云 GPU / 消费级卡量力而行）</li>
+      <li><tag class="amber">不做</tag> 从零预训练大模型、全参微调 70B</li>
+    </ul>
+  </div>
+  <div class="week-block"><h4>第37–40周：推理与服务化入门</h4>
+    <ul>
+      <li>batch、量化（bitsandbytes / GPTQ 概念）、延迟与吞吐</li>
+      <li>推理框架扫盲：vLLM / TGI 知道解决什么问题即可</li>
+      <li>用 FastAPI 包一层「加载本地/微调模型 → 预测接口」（复用你已有 FastAPI）</li>
+      <li><tag class="green">实战</tag> 模型文件 + 推理 API + 简单 Gradio Demo</li>
+    </ul>
+  </div>
+
+  <h3>🔹 第 11–12 月：毕业项目 + 面试</h3>
+  <p style="color:var(--sub);font-size:13px;margin-bottom:10px">目标：1 个可深挖的训推项目写进简历；能讲清实验设计</p>
+
+  <div class="week-block"><h4>第41–44周：毕业项目（二选一做深）</h4>
+    <ul>
+      <li><tag class="purple">项目 A</tag> 端到端分类/检测小系统：数据管道 + 训练脚本 + 指标看板 + 推理 API</li>
+      <li><tag class="purple">项目 B</tag> 领域小模型 LoRA：数据构建 → 微调 → 评测表 → Demo；写清失败案例</li>
+      <li>硬性交付：README、架构/实验记录、可复现命令、Demo 视频</li>
+    </ul>
+  </div>
+  <div class="week-block"><h4>第45–48周：面试与补强</h4>
+    <ul>
+      <li>题库：损失函数、优化器、过拟合、BN/Dropout、Attention、训练不稳定排查</li>
+      <li>项目深挖：为什么这组超参、如何防泄漏、线上会怎么监控</li>
+      <li><tag class="amber">选修补课</tag> 轻量 RAG/Agent——只为懂业务协作，不做成 A 路线第二主线</li>
+      <li>简历口径：「前端工程化 + 能独立完成训练/评估/部署小闭环」</li>
+    </ul>
+  </div>
+</div>
+
+<!-- 项目清单 -->
+<div class="section">
+  <h2><span class="icon" style="background:#fdf2f8;color:#db2777">🛠️</span> 项目清单（B 路线）</h2>
+  <p style="color:var(--sub);font-size:13px;margin-bottom:16px">⭐ 为简历建议必备。宁少做深，每个项目保留实验记录（超参、指标、错误分析）。</p>
+
+  <h3>🔸 阶段一：数据与经典 ML（月 1–4）</h3>
+  <div class="grid2">
+    <div class="project-card">
+      <h4>1. NumPy 手写线性回归 <span class="level">★★☆</span></h4>
+      <p class="desc">不用 sklearn，手写梯度下降，画出 loss 与拟合曲线。练矩阵与优化直觉。</p>
+      <div class="refs"><a href="https://github.com/patrickloeber/MLfromscratch" target="_blank">MLfromscratch</a></div>
+    </div>
+    <div class="project-card">
+      <h4>2. Titanic / 公开 CSV EDA <span class="level">★★☆</span></h4>
+      <p class="desc">清洗、特征、可视化、简单基线模型。练 Pandas 与「先看数据再建模」。</p>
+      <div class="refs"><a href="https://www.kaggle.com/learn" target="_blank">Kaggle Learn</a></div>
+    </div>
+    <div class="project-card">
+      <h4>3. 垃圾邮件 / 文本分类 ⭐ <span class="level">★★☆</span> <tag class="green">建议</tag></h4>
+      <p class="desc">TF-IDF + 经典模型 + 完整评估与错误分析。面试最常问的「闭环」样板。</p>
+      <div class="refs"><a href="https://scikit-learn.org/stable/auto_examples/text/plot_document_classification_20newsgroups.html" target="_blank">sklearn 示例</a></div>
+    </div>
+  </div>
+
+  <h3>🔸 阶段二：深度学习（月 5–7）</h3>
+  <div class="grid2">
+    <div class="project-card">
+      <h4>4. MNIST：NumPy MLP → PyTorch CNN ⭐ <span class="level">★★★</span></h4>
+      <p class="desc">两套实现对比，写清差异。证明你懂训练循环而不是只会抄 Trainer。</p>
+      <div class="refs"><a href="https://github.com/karpathy/nn-zero-to-hero" target="_blank">nn-zero-to-hero</a><a href="https://pytorch.org/tutorials/" target="_blank">PyTorch</a></div>
+    </div>
+    <div class="project-card">
+      <h4>5. 图像分类（迁移学习） <span class="level">★★★</span></h4>
+      <p class="desc">预训练 backbone + 自己的小数据集；记录增强与学习率实验。</p>
+      <div class="refs"><a href="https://pytorch.org/tutorials/beginner/transfer_learning_tutorial.html" target="_blank">Transfer Learning</a></div>
+    </div>
+  </div>
+
+  <h3>🔸 阶段三：LLM 训推（月 8–12）</h3>
+  <div class="grid2">
+    <div class="project-card">
+      <h4>6. 迷你 GPT / nanoGPT 复现 ⭐ <span class="level">★★★</span></h4>
+      <p class="desc">读懂训练脚本与 Attention 实现；能改配置做小规模实验。</p>
+      <div class="refs"><a href="https://github.com/karpathy/nanoGPT" target="_blank">nanoGPT</a></div>
+    </div>
+    <div class="project-card">
+      <h4>7. LoRA 领域微调 + 评测 ⭐ <span class="level">★★★★</span> <tag class="green">必交</tag></h4>
+      <p class="desc">数据格式、训练、对比「基座 vs 微调」；附失败样本。这是 B 路线差异化项目。</p>
+      <div class="refs"><a href="https://github.com/hiyouga/LLaMA-Factory" target="_blank">LLaMA-Factory</a><a href="https://huggingface.co/docs/peft" target="_blank">PEFT</a></div>
+    </div>
+    <div class="project-card">
+      <h4>8. 推理 API + Demo <span class="level">★★★</span></h4>
+      <p class="desc">FastAPI/Gradio 暴露微调或小模型；测延迟；Docker 可选。</p>
+      <div class="refs"><a href="https://www.gradio.app/" target="_blank">Gradio</a><a href="https://github.com/vllm-project/vllm" target="_blank">vLLM</a></div>
+    </div>
+  </div>
+</div>
+
+<!-- 开源 -->
+<div class="section">
+  <h2><span class="icon" style="background:#eef2ff;color:var(--accent)">📂</span> 优先读的开源（B 向）</h2>
+  <p style="color:var(--sub);font-size:13px;margin-bottom:12px">先训推，再应用框架。Chat UI / Dify 有余力再看。</p>
+  <table class="tb">
+    <tr><th>项目</th><th>一句话</th><th>阶段</th><th>难度</th></tr>
+    <tr><td><a href="https://github.com/karpathy/micrograd" target="_blank">micrograd</a></td><td>自动求导最小实现</td><td>月 5</td><td>★★☆</td></tr>
+    <tr><td><a href="https://github.com/karpathy/nn-zero-to-hero" target="_blank">nn-zero-to-hero</a></td><td>从零到神经网络直觉</td><td>月 5–6</td><td>★★☆</td></tr>
+    <tr><td><a href="https://github.com/karpathy/nanoGPT" target="_blank">nanoGPT</a></td><td>极简 GPT 训练</td><td>月 8–9</td><td>★★★</td></tr>
+    <tr><td><a href="https://github.com/huggingface/transformers" target="_blank">Transformers</a></td><td>模型加载与训练生态</td><td>月 9+</td><td>★★★★</td></tr>
+    <tr><td><a href="https://github.com/hiyouga/LLaMA-Factory" target="_blank">LLaMA-Factory</a></td><td>中文友好微调</td><td>月 9–10</td><td>★★★</td></tr>
+    <tr><td><a href="https://github.com/vllm-project/vllm" target="_blank">vLLM</a></td><td>高性能推理（先跑通再读）</td><td>月 10+</td><td>★★★★</td></tr>
+  </table>
+  <div class="tip"><strong>源码阅读：</strong>跑通 Demo → 从入口 trace → 画调用图 → 只深挖核心 20% 文件。</div>
+</div>
+
+<!-- 投入 -->
+<div class="section">
+  <h2><span class="icon" style="background:#fffbeb;color:var(--yellow)">⏰</span> 建议投入</h2>
+  <div class="grid2">
+    <div class="card y"><h4>在职（约 12 个月）</h4><p>工作日 2–3h（理论或小实验）+ 周末 6–8h（训练与项目）<br>合计每周约 20–22h。GPU：Colab / 云主机按实验租</p></div>
+    <div class="card y"><h4>全职（约 8–10 个月）</h4><p>上午理论 + 下午训练/改代码 + 晚上复盘笔记<br>尽早固定「每周一次完整实验」节奏</p></div>
+  </div>
+</div>
+
+<!-- 资源 -->
+<div class="section">
+  <h2><span class="icon" style="background:#eff6ff;color:var(--blue)">📚</span> 学习资源（B 主线）</h2>
+  <table class="tb">
+    <tr><th>阶段</th><th>资源</th><th>链接</th><th>说明</th></tr>
+    <tr><td>Python</td><td>官方教程 + 仓库 Day 练习</td><td><a href="https://docs.python.org/zh-cn/3/tutorial/" target="_blank">docs.python.org</a></td><td>有 JS 基础速通即可</td></tr>
+    <tr><td>NumPy/Pandas</td><td>Kaggle Learn</td><td><a href="https://www.kaggle.com/learn" target="_blank">kaggle.com/learn</a></td><td>边写边学</td></tr>
+    <tr><td>线代/微积分</td><td>3Blue1Brown</td><td><a href="https://www.bilibili.com/video/BV1ys411472E" target="_blank">线代</a> · <a href="https://www.bilibili.com/video/BV1qW411N7FU" target="_blank">微积分</a></td><td>直觉优先</td></tr>
+    <tr><td>ML</td><td>Andrew Ng Specialization</td><td><a href="https://www.coursera.org/specializations/machine-learning-introduction" target="_blank">Coursera</a></td><td>B 路线必跟</td></tr>
+    <tr><td>DL 动手</td><td>fast.ai / 李沐 d2l</td><td><a href="https://course.fast.ai/" target="_blank">fast.ai</a> · <a href="https://d2l.ai/" target="_blank">d2l.ai</a></td><td>选一条深跟</td></tr>
+    <tr><td>PyTorch</td><td>官方 Tutorials + Karpathy</td><td><a href="https://pytorch.org/tutorials/" target="_blank">tutorials</a> · <a href="https://github.com/karpathy/nn-zero-to-hero" target="_blank">nn-zero-to-hero</a></td><td>训练循环要能默写</td></tr>
+    <tr><td>Transformer</td><td>Illustrated + 李宏毅</td><td><a href="https://jalammar.github.io/illustrated-transformer/" target="_blank">图解</a> · <a href="https://www.bilibili.com/video/BV1BJ4m1e7g8" target="_blank">GenAI</a></td><td>配合 nanoGPT</td></tr>
+    <tr><td>微调</td><td>HF PEFT / LLaMA-Factory</td><td><a href="https://huggingface.co/docs/peft" target="_blank">PEFT</a> · <a href="https://github.com/hiyouga/LLaMA-Factory" target="_blank">LLaMA-Factory</a></td><td>月 9–10</td></tr>
+  </table>
+</div>
+
+<!-- 避坑 -->
+<div class="section">
+  <h2><span class="icon" style="background:#fef2f2;color:var(--red)">⚠️</span> B 路线常见误区</h2>
+  <div class="tip"><strong>坑1：先啃完教材再写代码。</strong>实验驱动：先跑通，再补卡住的数学。</div>
+  <div class="tip"><strong>坑2：和 A 路线双主线并行。</strong>RAG/Agent 很香，但会挤掉训练深度。B 主线时应用最多当「周末补课」。</div>
+  <div class="tip"><strong>坑3：只调 Trainer / 一键微调，讲不清 loss 与数据。</strong>面试必挂。至少手写过一次完整训练循环。</div>
+  <div class="tip"><strong>坑4：只报训练集准确率。</strong>验证集、过拟合、错误案例分析才是 MLE 语言。</div>
+  <div class="tip"><strong>坑5：放弃前端。</strong>Gradio/简单 UI + 清晰实验图表，是工程向 MLE 的加分项，不是分心。</div>
+  <div class="tip green"><strong>和旧版 deep-plan 的差别：</strong>旧版名义「A」却塞满 ML，又在坑里写「99% 岗不用训练」——自相矛盾。本版明确：<strong>你要走 B，训练与评估就是主业</strong>；应用开发请看 <a class="ilink" href="./ai-career-plan.html">ai-career-plan.html</a>。</div>
+</div>
+
+<!-- 能力 -->
+<div class="section">
+  <h2><span class="icon" style="background:#ecfdf5;color:var(--green)">📊</span> 能力成长预估（12 个月 · B）</h2>
+  <div class="progress-wrap"><span class="progress-label">Python / 数据</span><div class="progress-track"><div class="progress-fill g" style="width:25%"></div></div>→ 90%</div>
+  <div class="progress-wrap"><span class="progress-label">经典 ML</span><div class="progress-track"><div class="progress-fill p" style="width:8%"></div></div>→ 80%</div>
+  <div class="progress-wrap"><span class="progress-label">PyTorch / DL</span><div class="progress-track"><div class="progress-fill y" style="width:5%"></div></div>→ 75%</div>
+  <div class="progress-wrap"><span class="progress-label">微调 / 推理</span><div class="progress-track"><div class="progress-fill b" style="width:3%"></div></div>→ 65%</div>
+  <div class="progress-wrap"><span class="progress-label">LLM 应用</span><div class="progress-track"><div class="progress-fill p" style="width:5%"></div></div>→ 40%（够协作即可）</div>
+  <div class="tip" style="margin-top:16px"><strong>12 个月后可投：</strong>机器学习工程师、算法工程师（偏工程）、模型应用 / 训推相关岗位。竞争力 = 前端工程化习惯 + 可复现实验 + 至少一个微调/训练闭环项目。</div>
+</div>
+
+<!-- 技术栈对比 -->
+<div class="section">
+  <h2><span class="icon" style="background:#fdf2f8;color:#db2777">🔀</span> 技术栈：现在 → 12 个月后（B）</h2>
+  <table class="tb">
+    <tr><th style="width:22%">领域</th><th style="width:39%">现在</th><th style="width:39%">目标</th></tr>
+    <tr><td><strong>语言</strong></td><td>JS / TS</td><td>JS/TS + <tag class="green">Python（实验与训练主力）</tag></td></tr>
+    <tr><td><strong>数据</strong></td><td>JSON / 手写处理</td><td><tag class="green">NumPy + Pandas</tag> + 可复现数据管道</td></tr>
+    <tr><td><strong>经典 ML</strong></td><td>弱</td><td><tag class="green">sklearn 全流程</tag> + 指标与误差分析</td></tr>
+    <tr><td><strong>深度学习</strong></td><td>弱</td><td><tag class="green">PyTorch</tag> 训练循环、CNN/迁移学习</td></tr>
+    <tr><td><strong>LLM</strong></td><td>用过 Chat 产品</td><td><tag class="green">原理 + LoRA 微调 + 基础评测</tag></td></tr>
+    <tr><td><strong>部署</strong></td><td>前端部署经验</td><td><tag class="green">推理 API</tag> + Demo；了解量化/批推理</td></tr>
+    <tr><td><strong>应用开发</strong></td><td>前端强</td><td>FastAPI/Gradio 够用；RAG 不作为主项目</td></tr>
+  </table>
+  <div class="tip" style="margin-top:16px">
+    <strong>核心变化：</strong>从「做界面的人」→「能设计实验、训练并交付模型能力的人」。<br>
+    A 路线文档继续保留；每日学习若切到 B，以<strong>本页月份</strong>为准排 Day 计划。
+  </div>
+</div>
+
+<p style="text-align:center;color:#aaa;font-size:12px;padding:24px 0">B 路线：数学直觉 × 可复现实验 × 训推闭环。差的是持续实验，不是再下一份视频清单。</p>
+
+</div>
+</body>
+</html>
