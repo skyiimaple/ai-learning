@@ -1,0 +1,16 @@
+{
+  "name": "ai-learning-web",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "dev": "node scripts/dev.mjs",
+    "sync": "node scripts/content.mjs",
+    "build": "npm run sync && vitepress build",
+    "preview": "vitepress preview --host 127.0.0.1 --port 4173",
+    "test": "node --test tests/*.test.mjs",
+    "check": "npm test && npm run build && node scripts/check-links.mjs"
+  },
+  "devDependencies": { "vitepress": "1.6.4", "vue": "^3.5.13" }
+}
