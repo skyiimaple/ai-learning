@@ -1,12 +1,12 @@
 {
   "version": 1,
   "startedAt": "2026-07-27",
-  "currentDay": 21,
-  "currentWeek": 9,
+  "currentDay": 23,
+  "currentWeek": 10,
   "timezone": "Asia/Shanghai",
   "studyWindowDefault": "current+2h",
   "summary": {
-    "daysCompleted": 21,
+    "daysCompleted": 22,
     "daysTotalEstimate": 35,
     "weeksCompleted": 0,
     "weeksTotal": 24,
@@ -203,10 +203,12 @@
         "Chroma/pgvector",
         "引用展示"
       ],
-      "daysDone": [],
-      "status": "locked",
+      "daysDone": [
+        "day22"
+      ],
+      "status": "in_progress",
       "exam": {
-        "status": "locked",
+        "status": "pending",
         "score": null,
         "takenAt": null
       }
