@@ -1,11 +1,11 @@
-# Day 07 · SQLite + SQL 够用版 + FastAPI 读库
+# Day 07 · SQLite + SQL 够用版 + FastAPI 读库 · 已学习
 
 - **日期**：2026-08-04
 - **时段**：15:30–18:00（2 小时 30 分）
 - **阶段**：A 路线 · 第 1 个月 · FastAPI + SQL
 - **今日主题**：用 SQLite 落成绩表，学会 SELECT/WHERE/GROUP BY，再用 FastAPI 读出来
 - **原则**：SQL 只学够用；今天以「建库 + 查询 + GET」为主，完整 CRUD 可明天补写
-- **状态**：已完成 ✅
+- **状态**：已学习
 
 ## 今日目标
 

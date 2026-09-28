@@ -1,4 +1,4 @@
-# Day 12 · Prompt 工程入门（Zero / Few-shot + 格式约束）
+# Day 12 · Prompt 工程入门（Zero / Few-shot + 格式约束） · 已学习
 
 - **日期**：2026-08-25
 - **时段**：20:00–22:20（2 小时 20 分；此后未指定时段默认「当前时刻起 2 小时」）
@@ -6,7 +6,7 @@
 - **阶段**：A 路线 · 第 2 个月 · Prompt Engineering
 - **今日主题**：对比 Zero-shot / Few-shot；加强输出格式；可选对照 `response_format`（JSON mode）
 - **原则**：复用 `common.llm`；装包用 `uv pip`；代码给完整可跑文件
-- **状态**：已完成 ✅
+- **状态**：已学习
 
 ## 今日目标
 

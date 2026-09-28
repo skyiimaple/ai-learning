@@ -1,13 +1,13 @@
 {
   "version": 1,
   "startedAt": "2026-07-27",
-  "currentDay": 19,
-  "currentWeek": 8,
+  "currentDay": 21,
+  "currentWeek": 9,
   "timezone": "Asia/Shanghai",
   "studyWindowDefault": "current+2h",
   "summary": {
-    "daysCompleted": 19,
-    "daysTotalEstimate": 120,
+    "daysCompleted": 21,
+    "daysTotalEstimate": 35,
     "weeksCompleted": 0,
     "weeksTotal": 24,
     "examsPassed": 0,
@@ -184,10 +184,13 @@
         "Chunking",
         "向量检索"
       ],
-      "daysDone": [],
-      "status": "locked",
+      "daysDone": [
+        "day20",
+        "day21"
+      ],
+      "status": "in_progress",
       "exam": {
-        "status": "locked",
+        "status": "pending",
         "score": null,
         "takenAt": null
       }

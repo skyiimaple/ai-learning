@@ -6,7 +6,10 @@ export const maxDuration = 60;
 
 const provider = createOpenAI({
   apiKey: process.env.LLM_API_KEY,
-  baseURL: `${(process.env.LLM_BASE_URL ?? "https://api.deepseek.com").replace(/\/$/, "")}/v1`,
+  baseURL: (process.env.LLM_BASE_URL ?? "https://open.bigmodel.cn/api/paas/v4").replace(
+    /\/$/,
+    "",
+  ),
 });
 
 export async function POST(req: Request) {
@@ -21,7 +24,7 @@ export async function POST(req: Request) {
   const messages = body.messages ?? [];
 
   const result = streamText({
-    model: provider(process.env.LLM_MODEL ?? "deepseek-chat"),
+    model: provider(process.env.LLM_MODEL ?? "glm-4.7"),
     messages,
     temperature: 0.7,
   });

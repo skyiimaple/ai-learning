@@ -1,4 +1,4 @@
-# Day 10 · LLM Streaming（SSE）
+# Day 10 · LLM Streaming（SSE） · 已学习
 
 - **日期**：2026-08-12
 - **时段**：15:00–18:00（3 小时）
@@ -6,7 +6,7 @@
 - **阶段**：A 路线 · 第 1 个月 · 第 4 周
 - **今日主题**：上游 `stream=true`，用 FastAPI `StreamingResponse` 把字流式推给客户端
 - **原则**：在 Day09 的 `/chat` 旁加 `/chat/stream`；装包用 `uv pip`；代码均为完整可跑文件
-- **状态**：已完成 ✅
+- **状态**：已学习
 
 ## 今日目标
 

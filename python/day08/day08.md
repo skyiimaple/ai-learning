@@ -1,11 +1,11 @@
-# Day 08 · FastAPI 学生表 CRUD
+# Day 08 · FastAPI 学生表 CRUD · 已学习
 
 - **日期**：2026-08-04
 - **时段**：15:00–18:00（3 小时）
 - **阶段**：A 路线 · 第 1 个月 · FastAPI + SQL
 - **今日主题**：在 Day07 的 SQLite 上补齐 POST / GET/:id / PUT / DELETE
 - **原则**：先跑通 REST 直觉（对标 Express），SQL 仍用手写 `?` 占位符
-- **状态**：已完成 ✅
+- **状态**：已学习
 
 ## 今日目标
 

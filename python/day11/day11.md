@@ -1,4 +1,4 @@
-# Day 11 · 结构化输出（JSON + Pydantic）
+# Day 11 · 结构化输出（JSON + Pydantic） · 已学习
 
 - **日期**：2026-08-25
 - **时段**：20:00–22:20（2 小时 20 分）
@@ -6,7 +6,7 @@
 - **今日主题**：让模型只吐 JSON，用 Pydantic 校验；失败可重试；再挂一个 FastAPI 接口
 - **原则**：动手为主；你已有 `json_once.py` / `schemas.py` / `extract.py`，今天是**补齐 + 产品化**，不是重写
 - **前置**：Day09/10 的 `common/llm.py`、`.env` 可用
-- **状态**：已完成 ✅
+- **状态**：已学习
 - **实际产出**：`json_once.py`、`schemas.py`、`extract.py`、`main.py`
 
 ## 今日目标

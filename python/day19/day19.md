@@ -1,4 +1,4 @@
-# Day 19 · AI SDK Tool Calling（成绩工具）
+# Day 19 · AI SDK Tool Calling（成绩工具） · 已学习
 
 - **日期**：2026-09-08（落盘 2026-09-10）
 - **时段**：17:35–19:35（2 小时）
@@ -7,7 +7,7 @@
 - **阶段**：A 路线 · 第 2 个月 · Next.js AI 产品化
 - **今日主题**：在 `/api/chat-tools` 用 `streamText` + `tool()` 实现 `get_score` / `avg_score`，前端 `useChat` 流式多轮并看到工具调用
 - **原则**：工具在 Next 服务端 `execute`；Key 只在 `.env.local`；钉 AI SDK v4
-- **状态**：已完成 ✅
+- **状态**：已学习
 
 ## 今日目标
 

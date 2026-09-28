@@ -26,9 +26,9 @@ def chat_completions(
     tools: list[dict] | None = None,
     tool_choice: str | dict | None = None,
 ) -> dict:
-    """调用兼容 OpenAI 的 /v1/chat/completions，返回完整 JSON。"""
+    """调用兼容 OpenAI 的 /chat/completions，返回完整 JSON。"""
     cfg = get_llm_config()
-    url = f"{cfg['base_url']}/v1/chat/completions"
+    url = f"{cfg['base_url']}/chat/completions"
     payload: dict = {
         "model": cfg["model"],
         "messages": messages,
@@ -57,7 +57,7 @@ def chat_completions_stream(messages: list[dict], temperature: float = 0.7):
     import json
 
     cfg = get_llm_config()
-    url = f"{cfg['base_url']}/v1/chat/completions"
+    url = f"{cfg['base_url']}/chat/completions"
     headers = {
         "Authorization": f"Bearer {cfg['api_key']}",
         "Content-Type": "application/json",

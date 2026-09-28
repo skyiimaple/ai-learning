@@ -1,4 +1,4 @@
-# Day 16 · Next.js 接 Score Agent
+# Day 16 · Next.js 接 Score Agent · 已学习
 
 - **日期**：2026-09-07
 - **时段**：16:00–18:00（2 小时）
@@ -7,7 +7,7 @@
 - **阶段**：A 路线 · 第 2 个月 · Next.js AI 产品化（起步）
 - **今日主题**：在 `node/` 起 Next.js App Router，用 `fetch` 调 Day15 `/agent/chat`，页面展示回答 + 工具轨迹
 - **原则**：先打通前后端契约；不上 Vercel AI SDK / `useChat`
-- **状态**：已完成 ✅
+- **状态**：已学习
 
 ## 今日目标
 

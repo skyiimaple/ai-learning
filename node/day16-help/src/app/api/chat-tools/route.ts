@@ -9,7 +9,10 @@ export const maxDuration = 60;
 
 const provider = createOpenAI({
   apiKey: process.env.LLM_API_KEY,
-  baseURL: `${(process.env.LLM_BASE_URL ?? "https://api.deepseek.com").replace(/\/$/, "")}/v1`,
+  baseURL: (process.env.LLM_BASE_URL ?? "https://open.bigmodel.cn/api/paas/v4").replace(
+    /\/$/,
+    "",
+  ),
 });
 
 export async function POST(req: Request) {
@@ -20,7 +23,7 @@ export async function POST(req: Request) {
   const { messages } = await req.json();
 
   const result = streamText({
-    model: provider(process.env.LLM_MODEL ?? "deepseek-chat"),
+    model: provider(process.env.LLM_MODEL ?? "glm-4.7"),
     system:
       "你是成绩助手。查分用 get_score，算平均用 avg_score。禁止编造数字。用中文简短回答。",
     messages,

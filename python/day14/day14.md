@@ -1,4 +1,4 @@
-# Day 14 · Tool Calling × FastAPI
+# Day 14 · Tool Calling × FastAPI · 已学习
 
 - **日期**：2026-09-07
 - **时段**：14:55–16:55（2 小时）
@@ -6,7 +6,7 @@
 - **阶段**：A 路线 · 第 2 个月 · Tool Calling
 - **今日主题**：把 Day13 的工具循环挂到 FastAPI，变成可 HTTP 调用的成绩 Agent
 - **原则**：复用 `common.llm`；脚本逻辑抽成模块；装包用 `uv pip`
-- **状态**：已完成 ✅
+- **状态**：已学习
 
 ## 今日目标
 

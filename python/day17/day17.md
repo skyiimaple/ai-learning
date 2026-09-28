@@ -1,4 +1,4 @@
-# Day 17 · Vercel AI SDK · useChat 流式对话
+# Day 17 · Vercel AI SDK · useChat 流式对话 · 已学习
 
 - **日期**：2026-09-07
 - **时段**：16:20–18:20（2 小时）
@@ -7,7 +7,7 @@
 - **阶段**：A 路线 · 第 2 个月 · Next.js AI 产品化
 - **今日主题**：`useChat` + Route Handler `streamText`，对接 DeepSeek，多轮流式对话
 - **原则**：Key 只进服务端 `.env.local`（绝不 `NEXT_PUBLIC_`）
-- **状态**：已完成 ✅
+- **状态**：已学习
 
 ## 今日目标
 
