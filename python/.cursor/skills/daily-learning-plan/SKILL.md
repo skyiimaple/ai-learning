@@ -40,7 +40,8 @@ description: >-
 
 1. 把 `dayNN.md` **标题**末尾 `· 未学习` 改为 `· 已学习`；同步 `- **状态**：已学习`
 2. 勾选当日验收清单（若有）
-3. 更新 `progress.json`（`daysDone`、周状态、`summary`、`currentDay`）
+3. 把 `- **日期**` 改成该日完成提交的日期：`git log -1 --date=short` 看 `dayNN.md` 的完成提交；还没提交就用当天
+4. 更新 `progress.json`（`daysDone`、周状态、`summary`、`currentDay`）
 
 ### 新依赖介绍
 
