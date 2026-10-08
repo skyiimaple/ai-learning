@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Day22 · RAG 引用</title>
+  <style>
+    :root {
+      --bg: #f4f7f5;
+      --ink: #1a1f1c;
+      --muted: #5c6b63;
+      --line: #d5e0d9;
+      --accent: #0f6b5c;
+      --card: #fffcf9;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+      color: var(--ink);
+      background:
+        radial-gradient(ellipse 70% 45% at 0% 0%, #d5ebe4 0%, transparent 55%),
+        radial-gradient(ellipse 50% 40% at 100% 100%, #e8e2d6 0%, transparent 50%),
+        var(--bg);
+    }
+    main {
+      max-width: 42rem;
+      margin: 0 auto;
+      padding: 2.5rem 1.25rem 3rem;
+    }
+    .brand {
+      font-size: 0.75rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin: 0 0 0.5rem;
+    }
+    h1 {
+      font-size: clamp(1.7rem, 4vw, 2.2rem);
+      font-weight: 600;
+      margin: 0 0 0.4rem;
+      line-height: 1.2;
+    }
+    .lead {
+      margin: 0 0 1.5rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+    label {
+      display: block;
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-bottom: 0.35rem;
+    }
+    textarea {
+      width: 100%;
+      min-height: 5rem;
+      padding: 0.85rem 1rem;
+      border: 1px solid var(--line);
+      border-radius: 0.35rem;
+      background: var(--card);
+      font: inherit;
+      resize: vertical;
+    }
+    .row {
+      display: flex;
+      gap: 0.75rem;
+      align-items: center;
+      margin-top: 0.7rem;
+      flex-wrap: wrap;
+    }
+    button {
+      appearance: none;
+      border: none;
+      background: var(--accent);
+      color: #fff;
+      padding: 0.65rem 1.2rem;
+      border-radius: 0.35rem;
+      font: inherit;
+      cursor: pointer;
+    }
+    button:disabled { opacity: 0.55; cursor: not-allowed; }
+    .status { font-size: 0.85rem; color: var(--muted); }
+    .status.err { color: #b91c1c; }
+    section {
+      margin-top: 1.6rem;
+      padding-top: 1.1rem;
+      border-top: 1px solid var(--line);
+    }
+    section h2 {
+      font-size: 1rem;
+      margin: 0 0 0.6rem;
+    }
+    #answer {
+      white-space: pre-wrap;
+      line-height: 1.55;
+      min-height: 1.5rem;
+    }
+    #hits {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      gap: 0.65rem;
+    }
+    #hits li {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 0.35rem;
+      padding: 0.75rem 0.9rem;
+    }
+    #hits .meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 0.75rem;
+      font-size: 0.85rem;
+      color: var(--accent);
+      font-weight: 600;
+      margin-bottom: 0.4rem;
+    }
+    #hits .text {
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 0.78rem;
+      line-height: 1.45;
+      white-space: pre-wrap;
+      color: var(--ink);
+    }
+    .empty { color: var(--muted); font-size: 0.9rem; }
+  </style>
+</head>
+<body>
+  <main>
+    <p class="brand">Day22 · RAG Citations</p>
+    <h1>问笔记，看引用从哪来</h1>
+    <p class="lead">请求同源 <code>/rag/ask</code>；下方列出每条检索 hit，方便核对回答是否 grounded。</p>
+
+    <label for="q">你的问题</label>
+    <textarea id="q">浏览器为什么不能放 LLM_API_KEY？</textarea>
+    <div class="row">
+      <label for="topk" style="margin:0">top_k</label>
+      <input id="topk" type="number" min="1" max="8" value="3" style="width:4rem;padding:0.4rem" />
+      <button id="send" type="button">发送</button>
+      <span class="status" id="status"></span>
+    </div>
+
+    <section>
+      <h2>回答</h2>
+      <div id="answer" class="empty">尚未提问</div>
+    </section>
+
+    <section>
+      <h2>引用（hits）</h2>
+      <ul id="hits">
+        <li class="empty" style="border:none;background:transparent;padding:0">发送后显示来源片段</li>
+      </ul>
+    </section>
+  </main>
+
+  <script>
+    const q = document.getElementById("q");
+    const topk = document.getElementById("topk");
+    const send = document.getElementById("send");
+    const status = document.getElementById("status");
+    const answer = document.getElementById("answer");
+    const hitsEl = document.getElementById("hits");
+
+    function setStatus(text, isErr) {
+      status.textContent = text || "";
+      status.classList.toggle("err", !!isErr);
+    }
+
+    function renderHits(hits) {
+      hitsEl.innerHTML = "";
+      if (!hits || !hits.length) {
+        const li = document.createElement("li");
+        li.className = "empty";
+        li.style.border = "none";
+        li.style.background = "transparent";
+        li.style.padding = "0";
+        li.textContent = "本次没有命中片段";
+        hitsEl.appendChild(li);
+        return;
+      }
+      for (const h of hits) {
+        const li = document.createElement("li");
+        const meta = document.createElement("div");
+        meta.className = "meta";
+        meta.innerHTML =
+          "<span>" + (h.source || "?") + " · " + (h.id || "") + "</span>" +
+          "<span>score " + Number(h.score).toFixed(3) + "</span>";
+        const text = document.createElement("div");
+        text.className = "text";
+        text.textContent = h.text || "";
+        li.appendChild(meta);
+        li.appendChild(text);
+        hitsEl.appendChild(li);
+      }
+    }
+
+    send.onclick = async () => {
+      const question = q.value.trim();
+      if (!question) {
+        setStatus("请先输入问题", true);
+        return;
+      }
+      const top_k = Math.min(8, Math.max(1, Number(topk.value) || 3));
+      send.disabled = true;
+      setStatus("检索 + 生成中…");
+      answer.classList.remove("empty");
+      answer.textContent = "";
+      try {
+        const resp = await fetch("/rag/ask", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ question, top_k }),
+        });
+        const data = await resp.json().catch(() => ({}));
+        if (!resp.ok) {
+          const detail = data.detail || ("HTTP " + resp.status);
+          setStatus(String(detail), true);
+          answer.textContent = "";
+          answer.classList.add("empty");
+          renderHits([]);
+          return;
+        }
+        answer.textContent = data.answer || "(空回答)";
+        renderHits(data.hits || []);
+        setStatus(data.model ? "model: " + data.model : "完成");
+      } catch (e) {
+        setStatus(String(e), true);
+      } finally {
+        send.disabled = false;
+      }
+    };
+  </script>
+</body>
+</html>

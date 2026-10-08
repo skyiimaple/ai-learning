@@ -1,4 +1,4 @@
-# Day 25 · Langfuse + 知识库收口 · 未学习
+# Day 25 · Langfuse + 知识库收口 · 已学习
 
 - **日期**：按实际学习日
 - **时段**：2 小时
@@ -6,7 +6,7 @@
 - **阶段**：A 路线 · 第 3 个月 · 评测与观测 / RAG 必交关卡
 - **今日主题**：Tracing 看见 prompt/延迟/token；问答走 Chroma（可挂 Day24 pipeline）；README + 架构草图 + 评测记录
 - **原则**：观测要「能截图进简历」；不换框架大搬家
-- **状态**：未学习
+- **状态**：已学习
 - **大纲**：`learning-outline.md` Day25
 
 ## 环境
@@ -113,14 +113,25 @@ def trace_ask(
     }
     lf = _langfuse()
     if lf is not None:
-        trace = lf.trace(name="rag_ask", input={"question": question})
-        trace.generation(
-            name="answer",
-            model=model,
-            input=question,
-            output=answer,
-            metadata={"sources": payload["sources"], "latency_ms": latency_ms},
-        )
+        # langfuse 4.x 没有 client.trace()；用 observation 记一条 span + generation
+        with lf.start_as_current_observation(
+            name="rag_ask",
+            as_type="span",
+            input={"question": question},
+        ) as span:
+            with span.start_as_current_observation(
+                name="answer",
+                as_type="generation",
+                model=model,
+                input=question,
+            ) as generation:
+                generation.update(
+                    output=answer,
+                    metadata={
+                        "sources": payload["sources"],
+                        "latency_ms": latency_ms,
+                    },
+                )
         lf.flush()
         return
     with LOG.open("a", encoding="utf-8") as f:
@@ -257,8 +268,8 @@ uvicorn main:app --host 127.0.0.1 --port 8025
 
 **验收：**
 
-- [ ] 浏览器问答有引用
-- [ ] 响应含 `latency_ms`；trace 有记录
+- [x] 浏览器问答有引用
+- [x] 响应含 `latency_ms`；trace 有记录
 
 ---
 
@@ -306,18 +317,18 @@ User → FastAPI /rag/ask → (可选 Rewrite/Hybrid/Rerank)
 
 ### 1:45–2:00｜月3 关卡自检
 
-- [ ] 本地可跑 + 引用
-- [ ] 命中率数字写入 EVAL
-- [ ] Tracing 可展示
-- [ ] README + 架构草图
+- [x] 本地可跑 + 引用
+- [x] 命中率数字写入 EVAL
+- [x] Tracing 可展示
+- [x] README + 架构草图
 
 ---
 
 ## 验收清单
 
-- [ ] `/rag/ask` + UI 通
-- [ ] trace 至少 1 条
-- [ ] README / EVAL / architecture 三件套
+- [x] `/rag/ask` + UI 通
+- [x] trace 至少 1 条
+- [x] README / EVAL / architecture 三件套
 
 ## 明日预告
 
