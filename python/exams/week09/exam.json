@@ -1,0 +1,127 @@
+{
+  "week": 9,
+  "title": "RAG 架构",
+  "durationMin": 40,
+  "totalScore": 100,
+  "generatedAt": "2026-10-08T11:43:00+08:00",
+  "basedOn": [
+    "day20",
+    "day21"
+  ],
+  "questions": [
+    {
+      "id": "q1",
+      "type": "single",
+      "score": 8,
+      "prompt": "索引落盘之后，一次提问要重新计算向量的是？",
+      "answer": 1,
+      "options": [
+        "全部文档块",
+        "只有这个问题",
+        "文件名字符串的长度",
+        "什么都不用算，直接关键词相等"
+      ]
+    },
+    {
+      "id": "q2",
+      "type": "single",
+      "score": 8,
+      "prompt": "笔记先切成小块，主要是为了？",
+      "answer": 1,
+      "options": [
+        "把整篇压成一条向量，细节留不住也没关系",
+        "让问题和其中某一小段对上，而不是和整篇糊在一起",
+        "减少 JSON 的括号",
+        "做登录鉴权"
+      ]
+    },
+    {
+      "id": "q3",
+      "type": "single",
+      "score": 8,
+      "prompt": "POST /rag/ask 应该返回？",
+      "answer": 1,
+      "options": [
+        "只有 answer 字符串",
+        "answer 加上 hits（来源、分数、片段）",
+        "只返回向量数组",
+        "一条 SQL"
+      ]
+    },
+    {
+      "id": "q4",
+      "type": "single",
+      "score": 8,
+      "prompt": "更换 embedding 模型之后，旧的 vectors.npy 应该？",
+      "answer": 1,
+      "options": [
+        "继续直接用",
+        "和 docs.json 一起按新模型重建",
+        "只改文件名",
+        "删掉问题文本即可"
+      ]
+    },
+    {
+      "id": "q5",
+      "type": "single",
+      "score": 8,
+      "prompt": "近邻检索在比什么？",
+      "answer": 1,
+      "options": [
+        "两段字符串谁更长",
+        "问题向量和文档块向量是否接近",
+        "文件的修改时间",
+        "HTTP 状态码"
+      ]
+    },
+    {
+      "id": "q6",
+      "type": "multi",
+      "score": 10,
+      "prompt": "哪些说法正确？",
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "options": [
+        "回答应依据检索到的片段",
+        "hits 里的 source 用来回到原笔记",
+        "文档向量存进 npy 后，查询阶段不用把所有文档再 embed 一遍",
+        "Top-K 越大，答案一定越正确"
+      ]
+    },
+    {
+      "id": "q7",
+      "type": "short",
+      "score": 14,
+      "prompt": "为什么文档向量要落盘？查询阶段为什么只 embed 问题？",
+      "answer": "文档不变，向量计算贵，算一次写入 docs.json 和 vectors.npy。问题每次不同，所以只把问题变成向量，再和磁盘上的向量做近邻。",
+      "rubric": "文档向量可复用；问题每次重算。"
+    },
+    {
+      "id": "q8",
+      "type": "short",
+      "score": 12,
+      "prompt": "响应里如果没有 source，用户少了哪一种核对办法？",
+      "answer": "无法知道这句话来自哪篇笔记、对应哪一段原文，只能选择相不相信模型。",
+      "rubric": "来源用来核对，而不是装饰。"
+    },
+    {
+      "id": "q9",
+      "type": "code",
+      "score": 12,
+      "prompt": "每个请求都把全部文档重新 embed 再检索。应改成哪两个步骤？",
+      "answer": "启动时 load_index 读 docs.json 和 vectors.npy。请求里只 embed 当前问题，再算近邻。",
+      "rubric": "磁盘加载文档向量；只 embed 问题。"
+    },
+    {
+      "id": "q10",
+      "type": "code",
+      "score": 12,
+      "prompt": "接口只返回 answer，把 hits 丢掉。演示页会做不到什么？",
+      "answer": "没法列出引用的 source、分数和原文。响应里要带上 hits。",
+      "rubric": "页面无法展示引用；要返回 hits。"
+    }
+  ]
+}

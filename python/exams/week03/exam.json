@@ -1,0 +1,129 @@
+{
+  "week": 3,
+  "title": "FastAPI + SQL 够用版",
+  "durationMin": 40,
+  "totalScore": 100,
+  "generatedAt": "2026-10-08T11:43:00+08:00",
+  "basedOn": [
+    "day05",
+    "day06",
+    "day07",
+    "day08"
+  ],
+  "questions": [
+    {
+      "id": "q1",
+      "type": "single",
+      "score": 8,
+      "prompt": "GET /students?min_score=60 里的 min_score 是什么？",
+      "answer": 1,
+      "options": [
+        "路径参数",
+        "查询参数，默认 0，并且限制在 0 到 100",
+        "请求体里的 JSON 字段",
+        "请求头"
+      ]
+    },
+    {
+      "id": "q2",
+      "type": "single",
+      "score": 8,
+      "prompt": "列出学生时，班级名是怎么来的？",
+      "answer": 1,
+      "options": [
+        "students 表里本来就有 class_name 这一列",
+        "students 用 class_id JOIN classes，选出 c.name",
+        "GROUP BY 会自动生成班级名",
+        "前端拿到 id 后再猜一个名字"
+      ]
+    },
+    {
+      "id": "q3",
+      "type": "single",
+      "score": 8,
+      "prompt": "/stats/by-class 在算什么？",
+      "answer": 1,
+      "options": [
+        "每个学生单独一行，不做聚合",
+        "按班级 COUNT 人数、AVG 分数，JOIN classes 后 GROUP BY c.id",
+        "只按分数 WHERE，没有聚合",
+        "把所有班级合成一个平均数"
+      ]
+    },
+    {
+      "id": "q4",
+      "type": "single",
+      "score": 8,
+      "prompt": "POST /students 创建成功时，状态码是？",
+      "answer": 1,
+      "options": [
+        "200",
+        "201",
+        "204",
+        "404"
+      ]
+    },
+    {
+      "id": "q5",
+      "type": "single",
+      "score": 8,
+      "prompt": "PUT /students/{id} 时这个 id 在库里不存在，应该？",
+      "answer": 2,
+      "options": [
+        "返回 201",
+        "返回 400，因为 JSON 不合法",
+        "返回 404，detail 为学生不存在",
+        "返回 200 且 body 为 null"
+      ]
+    },
+    {
+      "id": "q6",
+      "type": "multi",
+      "score": 10,
+      "prompt": "哪些说法和这一周的接口一致？",
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "options": [
+        "response_model 用来约束响应的字段形状",
+        "Depends 可以把「查库得到的行」注进路由函数",
+        "删除成功用 204，响应没有正文",
+        "不 JOIN 也能从 students 表读出班级名字段"
+      ]
+    },
+    {
+      "id": "q7",
+      "type": "short",
+      "score": 14,
+      "prompt": "学生表为什么存 class_id，而不是把班级名写在每一行？查询和按班级统计时，JOIN 各自解决什么？",
+      "answer": "班级改名只改 classes 一处，避免每一行学生都抄一份名字。查询时 JOIN 把 class_id 换成班级名。按班级统计时同样 JOIN 后再 GROUP BY 班级，COUNT 和 AVG 才对得上名字。",
+      "rubric": "改名只改一处；JOIN 把 id 换成名字；聚合按班级而不是按学生。"
+    },
+    {
+      "id": "q8",
+      "type": "short",
+      "score": 12,
+      "prompt": "「分数不是整数」和「这个学生 id 不存在」应该分成哪两种 HTTP 结果？这和前端表单校验失败、打开一个不存在的详情页有什么对应？",
+      "answer": "字段不合法是校验错误（FastAPI 对 Pydantic 默认 422，创建接口里主动抛的 ValueError 用了 400）。资源不存在是 404。表单红字对应校验失败，详情页找不到对应 404。",
+      "rubric": "校验错误和 404 分开；能对上前端表单与不存在的页面。"
+    },
+    {
+      "id": "q9",
+      "type": "code",
+      "score": 12,
+      "prompt": "有人写成 SELECT class_name, COUNT(*) FROM students GROUP BY class_id。这个语句为什么拿不到班级名？写成和 day07 一样要补哪一段。",
+      "answer": "students 表没有 class_name。要 JOIN classes AS c ON s.class_id = c.id，选出 c.name AS class_name，再 GROUP BY c.id。",
+      "rubric": "指出缺的是 classes 表；写出 JOIN 和用 c.name。"
+    },
+    {
+      "id": "q10",
+      "type": "code",
+      "score": 12,
+      "prompt": "get_one_student 查完没有判断，直接 return student。id 不存在时客户端会看到什么状态码？应该改成哪一行？",
+      "answer": "查不到时返回的是空值，状态码仍是 200。应在返回前 if not student: raise HTTPException(404)。",
+      "rubric": "200 加空体是错的；要 404。"
+    }
+  ]
+}

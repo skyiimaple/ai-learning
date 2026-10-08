@@ -1,0 +1,128 @@
+{
+  "week": 7,
+  "title": "Tool Calling",
+  "durationMin": 40,
+  "totalScore": 100,
+  "generatedAt": "2026-10-08T11:43:00+08:00",
+  "basedOn": [
+    "day13",
+    "day14",
+    "day15"
+  ],
+  "questions": [
+    {
+      "id": "q1",
+      "type": "single",
+      "score": 8,
+      "prompt": "Tool Calling 里，函数真正在哪里执行？",
+      "answer": 1,
+      "options": [
+        "模型在云端执行完，只把结果告诉你",
+        "你的代码看到 tool_calls 后执行，再以 role tool 写回",
+        "浏览器里的按钮执行",
+        "数据库触发器执行"
+      ]
+    },
+    {
+      "id": "q2",
+      "type": "single",
+      "score": 8,
+      "prompt": "某一轮响应里没有 tool_calls 时，循环应该？",
+      "answer": 1,
+      "options": [
+        "继续空转",
+        "把这条 content 当作最终回答返回",
+        "必须再编一个工具调用",
+        "直接 500"
+      ]
+    },
+    {
+      "id": "q3",
+      "type": "single",
+      "score": 8,
+      "prompt": "day13 的 tool_loop 里 MAX_STEPS 是多少？",
+      "answer": 0,
+      "options": [
+        "5",
+        "6",
+        "无限",
+        "1"
+      ]
+    },
+    {
+      "id": "q4",
+      "type": "single",
+      "score": 8,
+      "prompt": "写回历史时，带工具调用的 assistant 消息要包含？",
+      "answer": 1,
+      "options": [
+        "只有 content",
+        "content 和 tool_calls",
+        "只有 role tool",
+        "空对象"
+      ]
+    },
+    {
+      "id": "q5",
+      "type": "single",
+      "score": 8,
+      "prompt": "day15 的页面要展示什么？",
+      "answer": 1,
+      "options": [
+        "只显示最终 answer",
+        "answer 和 steps 调用轨迹",
+        "只显示 SQL",
+        "绕过 FastAPI，页面直接调模型"
+      ]
+    },
+    {
+      "id": "q6",
+      "type": "multi",
+      "score": 10,
+      "prompt": "哪些说法正确？",
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "options": [
+        "tools 描述工具名和参数形状",
+        "tool 消息要用 tool_call_id 对上那一次调用",
+        "限步是为了避免模型一直调工具",
+        "响应里出现 tool_calls 就说明函数已经执行完"
+      ]
+    },
+    {
+      "id": "q7",
+      "type": "short",
+      "score": 14,
+      "prompt": "按顺序说出一轮工具调用：请求里有什么，模型回什么，谁执行，什么消息写回，什么时候停。",
+      "answer": "请求带 tools 和 messages。模型回 tool_calls。本地 run_tool 执行。先写回 assistant（含 tool_calls），再写 role 为 tool 的结果。没有 tool_calls 就停；到 MAX_STEPS 也停并说明超时。",
+      "rubric": "顺序含 tools、tool_calls、本地执行、写回、停机条件。"
+    },
+    {
+      "id": "q8",
+      "type": "short",
+      "score": 12,
+      "prompt": "POST /agent/chat 为什么同时返回 answer 和 steps？页面对 502 和空回答要做什么？",
+      "answer": "steps 让人核对查了哪个学生、算了什么，而不是只看一句结论。页面要有 loading，并把 502 和空回答显示成错误，而不是当成正常答案。",
+      "rubric": "steps 用来核对；页面要处理 loading 和错误。"
+    },
+    {
+      "id": "q9",
+      "type": "code",
+      "score": 12,
+      "prompt": "循环执行了工具，但没有 append role 为 tool 的消息。下一轮模型会怎样？",
+      "answer": "看不到观察结果，可能重复调用，或自己编一个数。必须把 tool_call_id 和执行结果写回 messages。",
+      "rubric": "指出观察结果丢失；要写回 tool 消息。"
+    },
+    {
+      "id": "q10",
+      "type": "code",
+      "score": 12,
+      "prompt": "超过 MAX_STEPS 时如果返回最后一次工具的原始 JSON，用户会看到什么？应该返回什么？",
+      "answer": "会看到一截工具 JSON，不像一句回答。应返回明确的超过步数上限、没有最终回答。",
+      "rubric": "原始 JSON 不是最终回答；要有限步说明。"
+    }
+  ]
+}

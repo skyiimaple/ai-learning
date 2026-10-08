@@ -1,0 +1,129 @@
+{
+  "week": 8,
+  "title": "Next.js AI 产品化",
+  "durationMin": 40,
+  "totalScore": 100,
+  "generatedAt": "2026-10-08T11:43:00+08:00",
+  "basedOn": [
+    "day16",
+    "day17",
+    "day18",
+    "day19"
+  ],
+  "questions": [
+    {
+      "id": "q1",
+      "type": "single",
+      "score": 8,
+      "prompt": "环境变量名带 NEXT_PUBLIC_ 时，它会出现在哪里？",
+      "answer": 1,
+      "options": [
+        "只在服务器内存里",
+        "打进浏览器能下载到的前端包",
+        "自动加密后再给模型",
+        "只在测试用例里"
+      ]
+    },
+    {
+      "id": "q2",
+      "type": "single",
+      "score": 8,
+      "prompt": "Day18 之后，成绩 Agent 页面应请求哪里？",
+      "answer": 1,
+      "options": [
+        "浏览器直接请求 127.0.0.1:8015",
+        "同源的 /api/agent，由服务端再去请求 Python",
+        "浏览器携带 LLM_API_KEY 请求智谱",
+        "一个静态 JSON 文件"
+      ]
+    },
+    {
+      "id": "q3",
+      "type": "single",
+      "score": 8,
+      "prompt": "useChat 在这周主要负责？",
+      "answer": 1,
+      "options": [
+        "建 SQLite 表",
+        "维护多轮消息，并把流式增量画到页面上",
+        "训练模型",
+        "做 SQL JOIN"
+      ]
+    },
+    {
+      "id": "q4",
+      "type": "single",
+      "score": 8,
+      "prompt": "AI SDK 里工具参数用什么描述？",
+      "answer": 1,
+      "options": [
+        "Pydantic",
+        "zod",
+        "argparse",
+        "csv.DictReader"
+      ]
+    },
+    {
+      "id": "q5",
+      "type": "single",
+      "score": 8,
+      "prompt": "streamText 的 maxSteps: 5 对应之前哪一种限制？",
+      "answer": 0,
+      "options": [
+        "Python 里手写的有限步工具循环",
+        "SQL 的 LIMIT 5",
+        "表格分页",
+        "CSS 动画步数"
+      ]
+    },
+    {
+      "id": "q6",
+      "type": "multi",
+      "score": 10,
+      "prompt": "哪些说法正确？",
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "options": [
+        "LLM_API_KEY 放在服务端环境变量",
+        "BFF 让浏览器不必知道 Python 的内网端口",
+        "SDK 的多步和手写 tool_calls 循环都要限制步数",
+        "NEXT_PUBLIC_LLM_API_KEY 是放置密钥的推荐写法"
+      ]
+    },
+    {
+      "id": "q7",
+      "type": "short",
+      "score": 14,
+      "prompt": "为什么 Agent 也要经过 /api/agent，而不是页面直接 fetch 127.0.0.1:8015？",
+      "answer": "浏览器会暴露内网端口，还可能撞上 CORS。密钥和上游地址应留在 route handler。页面只请求同源的 /api/agent。",
+      "rubric": "端口和 CORS；密钥留在服务端；页面走同源 BFF。"
+    },
+    {
+      "id": "q8",
+      "type": "short",
+      "score": 12,
+      "prompt": "AI SDK 自动多步和 Day13 手写循环，差在谁负责把 tool 结果写回？工具函数仍由谁执行？",
+      "answer": "手写循环要自己 append assistant 和 tool。SDK 在 maxSteps 内代劳多步。execute 仍是你的函数，模型只提议调用。",
+      "rubric": "写回消息的人不同；执行仍在自己的代码。"
+    },
+    {
+      "id": "q9",
+      "type": "code",
+      "score": 12,
+      "prompt": "客户端组件里写了 process.env.LLM_API_KEY。构建进浏览器后通常是什么？调用应放在哪？",
+      "answer": "客户端拿不到未公开的服务端变量，多半是 undefined。调用和密钥应放在 route handler，不放进客户端组件。",
+      "rubric": "客户端读不到；应放到服务端路由。"
+    },
+    {
+      "id": "q10",
+      "type": "code",
+      "score": 12,
+      "prompt": "页面仍使用 NEXT_PUBLIC_AGENT_URL 直连 8015。这和 Day18 的目标差在哪？应改成请求什么？",
+      "answer": "浏览器仍然知道并直连 Python。应改为请求 /api/agent，由服务端 fetch Python。",
+      "rubric": "仍是直连；改为 /api/agent。"
+    }
+  ]
+}

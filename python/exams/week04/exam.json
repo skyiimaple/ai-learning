@@ -1,0 +1,127 @@
+{
+  "week": 4,
+  "title": "LLM API + Streaming",
+  "durationMin": 40,
+  "totalScore": 100,
+  "generatedAt": "2026-10-08T11:43:00+08:00",
+  "basedOn": [
+    "day09",
+    "day10"
+  ],
+  "questions": [
+    {
+      "id": "q1",
+      "type": "single",
+      "score": 8,
+      "prompt": "LLM_API_KEY 应该放在哪里？",
+      "answer": 1,
+      "options": [
+        "写进前端页面的常量",
+        "环境变量里，由服务端代发请求",
+        "放进浏览器地址栏的查询参数",
+        "提交进 git 仓库"
+      ]
+    },
+    {
+      "id": "q2",
+      "type": "single",
+      "score": 8,
+      "prompt": "多轮对话下一次请求要带上什么？",
+      "answer": 1,
+      "options": [
+        "只带用户最新的一句",
+        "system 加上此前的 user 和 assistant",
+        "只带 system，历史可以丢",
+        "每次都用空的 messages"
+      ]
+    },
+    {
+      "id": "q3",
+      "type": "single",
+      "score": 8,
+      "prompt": "POST /chat/stream 的响应类型是？",
+      "answer": 1,
+      "options": [
+        "application/json",
+        "text/event-stream",
+        "text/html",
+        "application/octet-stream"
+      ]
+    },
+    {
+      "id": "q4",
+      "type": "single",
+      "score": 8,
+      "prompt": "day10 的一帧 SSE 长什么样？",
+      "answer": 0,
+      "options": [
+        "data: 加一段 JSON，帧之间空一行；结束时 data: [DONE]",
+        "等模型全部生成完，再返回一个大 JSON",
+        "WebSocket 二进制帧",
+        "只在服务器终端打印，HTTP 不返回字"
+      ]
+    },
+    {
+      "id": "q5",
+      "type": "single",
+      "score": 8,
+      "prompt": "流式 chunk 里新增的文字在哪个字段？",
+      "answer": 1,
+      "options": [
+        "message.content 的全文",
+        "choices[0].delta.content",
+        "usage.total_tokens",
+        "tool_calls"
+      ]
+    },
+    {
+      "id": "q6",
+      "type": "multi",
+      "score": 10,
+      "prompt": "哪些说法正确？",
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "options": [
+        "流式和非流式可以共用同一份 messages",
+        "用 curl 能看到一块块 data: 才算流式走通",
+        "密钥留在服务端，浏览器不直接调用上游",
+        "前端拿着 API key 调用上游，和后端代发一样安全"
+      ]
+    },
+    {
+      "id": "q7",
+      "type": "short",
+      "score": 14,
+      "prompt": "为什么聊天页不能把 API key 放进前端包？上游返回 502 时，你自己的接口应该怎么对浏览器表现？",
+      "answer": "前端包会被下载，密钥会泄漏。502 表示上游失败，应转成自己的错误信息，不要把密钥或上游内部地址回给浏览器。",
+      "rubric": "密钥会随前端包泄漏；502 要转成自己的错误，不回传密钥。"
+    },
+    {
+      "id": "q8",
+      "type": "short",
+      "score": 12,
+      "prompt": "非流式一次拿到整段 content。流式为什么要把 delta 拼起来？对页面渲染差在哪？",
+      "answer": "每个 chunk 只是新增加的几个字，按到达顺序接上才是完整回答。SSE 可以边到边画，整段 JSON 要等生成结束才出现文字。",
+      "rubric": "delta 是增量；SSE 边到边画，JSON 要等结束。"
+    },
+    {
+      "id": "q9",
+      "type": "code",
+      "score": 12,
+      "prompt": "有人写成 yield f\"data: {piece}\\n\"，帧尾只有一个换行。浏览器或 curl 会怎样解析？应改成什么？",
+      "answer": "SSE 用空行分帧。只有一个换行时，下一帧会粘在上一帧后面。应写成 data: ... 然后两个换行。",
+      "rubric": "指出少了分帧空行；应是两个换行。"
+    },
+    {
+      "id": "q10",
+      "type": "code",
+      "score": 12,
+      "prompt": "多轮循环里只 append 了 user，没有 append assistant。下一轮模型会漏掉什么？补上哪一条消息？",
+      "answer": "模型看不到自己上一轮说过的话，上下文断了。拿到 reply 后要 append role 为 assistant、content 为 reply 的消息。",
+      "rubric": "必须写回 assistant 消息。"
+    }
+  ]
+}

@@ -1,0 +1,127 @@
+{
+  "week": 10,
+  "title": "RAG 实现",
+  "durationMin": 40,
+  "totalScore": 100,
+  "generatedAt": "2026-10-08T11:43:00+08:00",
+  "basedOn": [
+    "day22",
+    "day23"
+  ],
+  "questions": [
+    {
+      "id": "q1",
+      "type": "single",
+      "score": 8,
+      "prompt": "换成 Chroma 之后，近邻检索靠什么完成？",
+      "answer": 1,
+      "options": [
+        "仍要自己写余弦公式",
+        "collection.query",
+        "SQL JOIN",
+        "不保存向量"
+      ]
+    },
+    {
+      "id": "q2",
+      "type": "single",
+      "score": 8,
+      "prompt": "改了 day20/docs 里的笔记之后，要？",
+      "answer": 1,
+      "options": [
+        "什么都不用做，旧库自动更新",
+        "重新运行 build_chroma.py",
+        "只改 gold.json 的题干",
+        "重启进程就会用上新文本"
+      ]
+    },
+    {
+      "id": "q3",
+      "type": "single",
+      "score": 8,
+      "prompt": "eval_retrieve.py 的命中率在评什么？",
+      "answer": 1,
+      "options": [
+        "回答写得优不优雅",
+        "Top-K 结果里有没有期望的 source",
+        "Python 语法",
+        "接口延迟"
+      ]
+    },
+    {
+      "id": "q4",
+      "type": "single",
+      "score": 8,
+      "prompt": "Day22 演示页加载的是哪一套索引？",
+      "answer": 1,
+      "options": [
+        "Chroma",
+        "Day21 落盘的 docs.json 和 vectors.npy",
+        "不检索，直接让模型回答",
+        "Langfuse 里的 trace"
+      ]
+    },
+    {
+      "id": "q5",
+      "type": "single",
+      "score": 8,
+      "prompt": "gold.json 里的一条用例至少要有？",
+      "answer": 0,
+      "options": [
+        "问题和期望命中的来源文件",
+        "模型权重",
+        "一条 SQL",
+        "前端路由"
+      ]
+    },
+    {
+      "id": "q6",
+      "type": "multi",
+      "score": 10,
+      "prompt": "哪些说法正确？",
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "options": [
+        "PersistentClient 把向量库放在本地目录",
+        "metadata 里要有 source，命中率才能对文件名",
+        "库里只有三篇笔记时，Top-K 很容易把文件都盖住，命中率会偏高",
+        "这个脚本会给回答的文采打分"
+      ]
+    },
+    {
+      "id": "q7",
+      "type": "short",
+      "score": 14,
+      "prompt": "为什么先评「该命中哪个文件」，而不是先评答案句子好不好看？",
+      "answer": "检索若没把对的笔记带进来，后面的回答没有正确材料。先确认期望 source 进了 Top-K，再谈句子。",
+      "rubric": "检索错则回答没有依据；命中率看的是 source。"
+    },
+    {
+      "id": "q8",
+      "type": "short",
+      "score": 12,
+      "prompt": "引用区里的 source、score、text 分别让用户核对什么？",
+      "answer": "source 是哪篇笔记，score 是有多接近，text 是被用到的原文片段。",
+      "rubric": "三个字段各说对用途。"
+    },
+    {
+      "id": "q9",
+      "type": "code",
+      "score": 12,
+      "prompt": "建库用 embedding-3，查询时换成了另一个向量模型。检索结果会怎样？",
+      "answer": "两边的向量不在同一空间，近邻没有意义。建库和查询必须用同一个 embedding 函数。",
+      "rubric": "空间不一致；两端模型要相同。"
+    },
+    {
+      "id": "q10",
+      "type": "code",
+      "score": 12,
+      "prompt": "命中判断写成结果集合必须和 expect_sources 完全相等。Top-K 里多了一篇别的笔记就算失败。应怎么判？",
+      "answer": "期望来源出现在结果里即可，看交集是否非空，不要求两个集合完全一样。",
+      "rubric": "用交集，不用完全相等。"
+    }
+  ]
+}

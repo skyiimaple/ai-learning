@@ -1,0 +1,126 @@
+{
+  "week": 6,
+  "title": "结构化输出与安全",
+  "durationMin": 40,
+  "totalScore": 100,
+  "generatedAt": "2026-10-08T11:43:00+08:00",
+  "basedOn": [
+    "day11"
+  ],
+  "questions": [
+    {
+      "id": "q1",
+      "type": "single",
+      "score": 8,
+      "prompt": "ScoreReport 上的 model_validator(mode=\"after\") 用来检查什么？",
+      "answer": 1,
+      "options": [
+        "单个 score 是否在 0 到 100",
+        "对象组装完成后，pass_count 是否等于分数不低于 60 的人数",
+        "HTTP 状态码",
+        "文件是否存在"
+      ]
+    },
+    {
+      "id": "q2",
+      "type": "single",
+      "score": 8,
+      "prompt": "StudentScore.score 的 Field(ge=0, le=100) 挡住的是？",
+      "answer": 1,
+      "options": [
+        "跨字段不一致",
+        "单个分数越界",
+        "网络超时",
+        "JSON 外面的说明文字"
+      ]
+    },
+    {
+      "id": "q3",
+      "type": "single",
+      "score": 8,
+      "prompt": "模型把 JSON 包在 ```json 围栏里时，下一步应该？",
+      "answer": 1,
+      "options": [
+        "对整段原文直接 json.loads，一定能过",
+        "先剥掉围栏，再 json.loads",
+        "重新训练模型",
+        "把围栏当成合法 JSON"
+      ]
+    },
+    {
+      "id": "q4",
+      "type": "single",
+      "score": 8,
+      "prompt": "这一周要求校验失败时怎么处理？",
+      "answer": 1,
+      "options": [
+        "无限重试直到成功",
+        "把错误信息反馈给模型，再试一次",
+        "忽略错误，把原始字符串返回给前端",
+        "改去查 SQLite"
+      ]
+    },
+    {
+      "id": "q5",
+      "type": "single",
+      "score": 8,
+      "prompt": "POST /extract 的请求体是什么？",
+      "answer": 1,
+      "options": [
+        "已经校验过的 ScoreReport",
+        "原始成绩描述 text，由服务端抽 JSON 再校验",
+        "一条 SQL",
+        "CSV 文件路径"
+      ]
+    },
+    {
+      "id": "q6",
+      "type": "multi",
+      "score": 10,
+      "prompt": "哪些说法正确？",
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "options": [
+        "先从模型文本里抽出 JSON，再 model_validate",
+        "pass_count 必须等于 students 里 score 不低于 60 的人数",
+        "字段范围和跨字段一致性是两层校验",
+        "校验失败时可以把未校验的 dict 当成功响应"
+      ]
+    },
+    {
+      "id": "q7",
+      "type": "short",
+      "score": 14,
+      "prompt": "JSON 已经能 json.loads，为什么 Pydantic 仍可能拒绝？重试时要把哪句错误喂回模型？",
+      "answer": "语法合法不代表 pass_count 与及格人数一致，也不代表分数在 0 到 100。要把 ValidationError 的说明，例如 pass_count 与实际及格人数不一致，放进下一轮提示。",
+      "rubric": "语法和业务约束分开；重试要带回具体错误。"
+    },
+    {
+      "id": "q8",
+      "type": "short",
+      "score": 12,
+      "prompt": "这和前端用 schema 解析接口响应有什么相同点？",
+      "answer": "都不信任「看起来像 JSON」的数据。运行时按字段类型和跨字段规则拒绝，通过后才给下游用。",
+      "rubric": "运行时校验；不信任裸 JSON。"
+    },
+    {
+      "id": "q9",
+      "type": "code",
+      "score": 12,
+      "prompt": "校验写成 if self.pass_count != len(self.students)。及格线是 60 分。错在哪里？应怎么数？",
+      "answer": "len(students) 是总人数，不是及格人数。应数 score 不低于 60 的那些人。",
+      "rubric": "指出用了总人数；改为按 60 分计数。"
+    },
+    {
+      "id": "q10",
+      "type": "code",
+      "score": 12,
+      "prompt": "现在的 extract.py 在校验失败时直接 raise RuntimeError，没有第二次请求。要补上「重试一次」，messages 里应再加什么？",
+      "answer": "加上一条说明：上一份输出不合法，并带上错误文本和原始输出，请按错误改一版 JSON。然后再抽一次、再 validate。只重试这一次。",
+      "rubric": "要把错误和原文喂回；只再请求一次。"
+    }
+  ]
+}

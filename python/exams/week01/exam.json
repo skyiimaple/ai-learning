@@ -1,0 +1,120 @@
+{
+  "week": 1,
+  "title": "Python 语法速通①",
+  "durationMin": 40,
+  "totalScore": 100,
+  "generatedAt": "2026-10-08T11:26:00+08:00",
+  "basedOn": ["day01", "day02", "day03", "day04", "变量/条件/循环", "列表字典", "json 与 csv"],
+  "questions": [
+    {
+      "id": "q1",
+      "type": "single",
+      "score": 8,
+      "prompt": "对照 JavaScript：Python 里「没有值」和布尔字面量怎么写？",
+      "options": [
+        "null，以及 true / false",
+        "None，以及 True / False",
+        "undefined，以及 True / False",
+        "None，以及 true / false"
+      ],
+      "answer": 1
+    },
+    {
+      "id": "q2",
+      "type": "single",
+      "score": 8,
+      "prompt": "user = {\"name\": \"a\"}。user.get(\"age\", 0) 的结果是？",
+      "options": [
+        "抛出 KeyError",
+        "None",
+        "0",
+        "undefined"
+      ],
+      "answer": 2
+    },
+    {
+      "id": "q3",
+      "type": "single",
+      "score": 8,
+      "prompt": "[x for x in range(5) if x % 2 == 0] 得到什么？",
+      "options": [
+        "[1, 3]",
+        "[0, 2, 4]",
+        "[2, 4]",
+        "[0, 2, 4, 6]"
+      ],
+      "answer": 1
+    },
+    {
+      "id": "q4",
+      "type": "single",
+      "score": 8,
+      "prompt": "stats.py 里用 Path(__file__).with_name(\"data.json\") 打开成绩文件。这个路径指的是？",
+      "options": [
+        "运行命令时的当前工作目录下的 data.json",
+        "和 stats.py 放在同一目录的 data.json",
+        "用户主目录下的 data.json",
+        "只在名为 day01 的字符串里查找"
+      ],
+      "answer": 1
+    },
+    {
+      "id": "q5",
+      "type": "single",
+      "score": 8,
+      "prompt": "argparse 写了 add_argument(\"--pass-line\", type=int, default=60)。解析之后，及格线在代码里用哪个属性？",
+      "options": [
+        "args[\"--pass-line\"]",
+        "args.pass-line",
+        "args.pass_line",
+        "args.passLine"
+      ],
+      "answer": 2
+    },
+    {
+      "id": "q6",
+      "type": "multi",
+      "score": 10,
+      "prompt": "关于这一周的读写和异常，哪些说法正确？",
+      "options": [
+        "csv.DictReader 读出的每一行是 dict，键来自表头",
+        "Path.glob(\"*.csv\") 只看这一层；rglob 会进入子目录",
+        "FileFormatError 和 ScoreParseError 都继承 AppError，except AppError 能接住它们",
+        "summarize 在学生列表为空时，仍会返回 avg 和 by_class"
+      ],
+      "answer": [0, 1, 2]
+    },
+    {
+      "id": "q7",
+      "type": "short",
+      "score": 14,
+      "prompt": "前端会把「用户能看懂的失败」和「没想到的系统错误」分开。对照 day04 的异常：InputNotFoundError、FileFormatError、ScoreParseError 各在什么情况下抛出？batch_stats.py 为什么只捕获 AppError，而不是裸写 except Exception？",
+      "rubric": "三种业务错误的触发场景各 1 点；AppError 是业务基类所以子类都能接住；不抓 Exception 是为了让真正的程序错误继续暴露。",
+      "answer": "路径不存在抛 InputNotFoundError；扩展名或内容格式不对抛 FileFormatError；分数字段转不成整数抛 ScoreParseError。三者都继承 AppError，所以 except AppError 能一起处理并打印「业务错误」。不捕获 Exception，是让除零、拼写错误这类意外继续抛出，而不是被当成业务失败吞掉。"
+    },
+    {
+      "id": "q8",
+      "type": "short",
+      "score": 12,
+      "prompt": "函数参数：*args 和 **kwargs 分别是什么类型？这和 JS 的 rest、对象展开各对应什么？为什么默认参数要写成 bucket=None，而不是 bucket=[]？",
+      "rubric": "args 是 tuple、kwargs 是 dict；对应 JS rest 与对象收集；可变默认值只创建一次，多次调用会共享同一个列表。",
+      "answer": "*args 收成 tuple，**kwargs 收成 dict。前者对应 JS 的 ...rest，后者对应把剩余具名参数收成一个对象。bucket=[] 这个列表在函数定义时只创建一次，后面每次不传 bucket 都会改到同一个列表；写成 None，在函数体内再 bucket = [] if bucket is None else bucket，每次调用才有自己的列表。"
+    },
+    {
+      "id": "q9",
+      "type": "code",
+      "score": 12,
+      "prompt": "day03/cli.py 写汇总时有一行：\"scope\": all。这里的 all 没有加引号。写出这一格实际会变成什么，以及应该怎么改。",
+      "rubric": "all 是内置函数对象，不是字符串 \"all\"；写 CSV 时会变成函数的字符串表示。应改成 \"all\"。",
+      "answer": "all 指向内置函数 all，不是字符串。DictWriter 会把它写成类似 \"<built-in function all>\" 的文本，scope 列就不是总体这一行的标记。应写成 \"scope\": \"all\"。"
+    },
+    {
+      "id": "q10",
+      "type": "code",
+      "score": 12,
+      "prompt": "day04/batch_stats.py 的 main：统计成功时，函数末尾仍是 return 1。合并模式下打印用的是循环结束后的 file.name，但人数却是所有文件加在一起的。指出这两处分别会让调用者看到什么，并写出应有的返回码和打印对象。",
+      "rubric": "成功却返回 1，SystemExit 会变成失败；合并打印只显示最后一个文件名，容易误以为只统计了那一个文件。成功应 return 0；合并结果要用固定标签而不是最后一个 file.name。",
+      "answer": "if __name__ 里是 raise SystemExit(main())，return 1 会让进程以失败码结束，即使统计已经打印出来。合并分支的 print 写在 for 外面，file 停在最后一个文件上，于是标签是最后那个文件名，人数却是全部文件之和。成功路径应 return 0；合并结果的标签应写成固定的「合并」之类，不要用循环变量 file.name。"
+    }
+  ]
+}

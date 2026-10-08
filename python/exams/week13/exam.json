@@ -1,0 +1,126 @@
+{
+  "week": 13,
+  "title": "Agent 核心循环",
+  "durationMin": 40,
+  "totalScore": 100,
+  "generatedAt": "2026-10-08T11:43:00+08:00",
+  "basedOn": [
+    "day26"
+  ],
+  "questions": [
+    {
+      "id": "q1",
+      "type": "single",
+      "score": 8,
+      "prompt": "day26 的 MAX_STEPS 是多少？",
+      "answer": 1,
+      "options": [
+        "5",
+        "6",
+        "3",
+        "不限"
+      ]
+    },
+    {
+      "id": "q2",
+      "type": "single",
+      "score": 8,
+      "prompt": "kb_search 实际调用的是？",
+      "answer": 1,
+      "options": [
+        "Day24 的改写、混合和重排",
+        "Day23 的 Chroma 向量检索",
+        "不查笔记",
+        "一条 SQL"
+      ]
+    },
+    {
+      "id": "q3",
+      "type": "single",
+      "score": 8,
+      "prompt": "这一周的三个工具是？",
+      "answer": 0,
+      "options": [
+        "get_time、calc、kb_search",
+        "只有 delete_file",
+        "只有 SQL",
+        "只有 embed"
+      ]
+    },
+    {
+      "id": "q4",
+      "type": "single",
+      "score": 8,
+      "prompt": "calc 允许的表达式字符是？",
+      "answer": 1,
+      "options": [
+        "任意 Python 语句",
+        "数字、空格和 + - * / ( )",
+        "任意文件路径",
+        "任意 SQL"
+      ]
+    },
+    {
+      "id": "q5",
+      "type": "single",
+      "score": 8,
+      "prompt": "循环什么时候结束？",
+      "answer": 1,
+      "options": [
+        "固定跑满 6 步，即使已经答完",
+        "没有 tool_calls 就返回 content；步数走完则返回达到上限",
+        "三个工具都必须各调用一次",
+        "用户在终端按回车"
+      ]
+    },
+    {
+      "id": "q6",
+      "type": "multi",
+      "score": 10,
+      "prompt": "哪些说法正确？",
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "options": [
+        "模型只提议工具名和参数",
+        "assistant 消息要把 tool_calls 写回历史",
+        "tool 消息要带对得上的 tool_call_id",
+        "工具失败时也可以编一个看起来合理的数字"
+      ]
+    },
+    {
+      "id": "q7",
+      "type": "short",
+      "score": 14,
+      "prompt": "默认任务里，查笔记、算 17*23、取当前时间分别要用哪个工具？为什么不能让模型自己心算？",
+      "answer": "kb_search 查笔记，calc 计算，get_time 取时间。心算会编造，系统提示要求事实来自工具。",
+      "rubric": "三个工具对应三件事；禁止编造。"
+    },
+    {
+      "id": "q8",
+      "type": "short",
+      "score": 12,
+      "prompt": "和 Day13 的循环比，这周的工具和步数上限有什么变化？",
+      "answer": "多了知识库检索、时间和算术。步数上限从 5 变成 6。停机条件仍是没有工具调用，或步数走完。",
+      "rubric": "工具变多；上限是 6。"
+    },
+    {
+      "id": "q9",
+      "type": "code",
+      "score": 12,
+      "prompt": "没有 tool_calls 时仍然调用 run_tool。应该怎样停？",
+      "answer": "这一轮已经是最终回答，应直接 return content，不要再执行工具。",
+      "rubric": "无工具调用就返回 content。"
+    },
+    {
+      "id": "q10",
+      "type": "code",
+      "score": 12,
+      "prompt": "步数用完时返回空字符串。调用者怎么区分「答完了」和「被截断」？",
+      "answer": "空字符串像是没有回答。应返回明确的达到步数上限说明。",
+      "rubric": "要有明确的限步文案。"
+    }
+  ]
+}

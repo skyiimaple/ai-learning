@@ -1,0 +1,127 @@
+{
+  "week": 14,
+  "title": "Memory 与多工具",
+  "durationMin": 40,
+  "totalScore": 100,
+  "generatedAt": "2026-10-08T11:43:00+08:00",
+  "basedOn": [
+    "day27",
+    "day26"
+  ],
+  "questions": [
+    {
+      "id": "q1",
+      "type": "single",
+      "score": 8,
+      "prompt": "compress_if_needed 默认上限是 12 条。传入正好 12 条时会？",
+      "answer": 0,
+      "options": [
+        "原样返回，不调用模型做摘要",
+        "去掉 system 后把其余消息全部摘要",
+        "只保留最后 6 条，丢掉 system",
+        "每条 content 截成 200 字后返回"
+      ]
+    },
+    {
+      "id": "q2",
+      "type": "single",
+      "score": 8,
+      "prompt": "消息超过 12 条时，送去摘要的是哪一段？",
+      "answer": 1,
+      "options": [
+        "包含 system 的全部原文",
+        "去掉 system 之后，再去掉末尾 6 条；每条 content 最多 200 字",
+        "只有最初那条 system",
+        "只有最后 6 条原文"
+      ]
+    },
+    {
+      "id": "q3",
+      "type": "single",
+      "score": 8,
+      "prompt": "压缩成功后的列表结构是？",
+      "answer": 1,
+      "options": [
+        "只剩一条 user 摘要",
+        "原来的第一条 system（如果有）+ 一条历史摘要 system + 最后 6 条原文",
+        "用摘要替换原来的 system，其余删除",
+        "删掉最后 6 条，只留摘要"
+      ]
+    },
+    {
+      "id": "q4",
+      "type": "single",
+      "score": 8,
+      "prompt": "delete_file 不传 confirm 时会？",
+      "answer": 1,
+      "options": [
+        "立刻 unlink",
+        "返回 status 为 need_confirm，文件还在",
+        "直接返回 path not allowed",
+        "抛异常"
+      ]
+    },
+    {
+      "id": "q5",
+      "type": "single",
+      "score": 8,
+      "prompt": "confirm 为真，文件存在，但路径在 tmp_playground 外面。结果是？",
+      "answer": 2,
+      "options": [
+        "删除成功",
+        "仍返回 need_confirm",
+        "返回 path not allowed，不删除",
+        "先返回 not found 再删除"
+      ]
+    },
+    {
+      "id": "q6",
+      "type": "multi",
+      "score": 10,
+      "prompt": "关于 run_tool_with_retry（retries=2），哪些正确？",
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "options": [
+        "工具最多被调用 3 次",
+        "结果里出现 need_confirm 就立刻返回，不再 sleep",
+        "结果里出现 error 且不是在等确认时，会 sleep 后再试",
+        "成功 JSON 只要没有 confirm 字段就会被当成失败"
+      ]
+    },
+    {
+      "id": "q7",
+      "type": "short",
+      "score": 12,
+      "prompt": "删除为什么要在 Python 里检查 confirm 和 playground，而不是只在工具说明里写「请先问用户」？这和浏览器里用户点取消有什么对应？",
+      "answer": "说明只是给模型看的，模型仍可能直接调用。真正 unlink 的是执行层，所以没确认就不能删，确认了也只能删演示目录里的文件。浏览器点取消对应 confirm 仍为假：不删，并返回需要确认。",
+      "rubric": "执行层默认拒绝；路径白名单；取消对应不删。"
+    },
+    {
+      "id": "q8",
+      "type": "short",
+      "score": 14,
+      "prompt": "结合 Agent：谁执行工具？何时停？步数到顶返回什么？compress_if_needed 应插在哪一次调用模型之前？",
+      "answer": "模型只提议，run_tool 执行。没有 tool_calls 就停。到顶返回达到步数上限。压缩要在历史变长之后、下一次 chat_completions 之前。",
+      "rubric": "执行者、停机、限步文案、压缩时机。"
+    },
+    {
+      "id": "q9",
+      "type": "code",
+      "score": 12,
+      "prompt": "下面的判断把等待确认也拿去重试：err 包含 error 或 need_confirm，然后只要 err 为真就 sleep。问题在哪？",
+      "answer": "need_confirm 不会因为多试几次就变成用户同意。遇到 need_confirm 应立刻返回，只有 error 才 sleep 重试。",
+      "rubric": "确认不能靠重试产生；need_confirm 要马上返回。"
+    },
+    {
+      "id": "q10",
+      "type": "code",
+      "score": 12,
+      "prompt": "压缩函数只返回 system 加一条历史摘要，没有接上 rest 的最后 6 条。模型会忘记什么？",
+      "answer": "忘记刚发生的工具结果和用户原话。返回值还要接上没被摘要的最后 6 条。",
+      "rubric": "必须保留最近 6 条。"
+    }
+  ]
+}

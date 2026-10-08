@@ -1,0 +1,126 @@
+{
+  "week": 5,
+  "title": "Prompt Engineering",
+  "durationMin": 40,
+  "totalScore": 100,
+  "generatedAt": "2026-10-08T11:43:00+08:00",
+  "basedOn": [
+    "day12"
+  ],
+  "questions": [
+    {
+      "id": "q1",
+      "type": "single",
+      "score": 8,
+      "prompt": "Few-shot 和 Zero-shot 的差别是？",
+      "answer": 0,
+      "options": [
+        "Few-shot 在提示里给出输入输出例子，Zero-shot 不给例子",
+        "Few-shot 会更新模型权重",
+        "Zero-shot 必须打开 JSON mode",
+        "Few-shot 就是 Tool Calling"
+      ]
+    },
+    {
+      "id": "q2",
+      "type": "single",
+      "score": 8,
+      "prompt": "System Prompt 在这条链路里负责什么？",
+      "answer": 1,
+      "options": [
+        "只展示给用户看，模型不读",
+        "规定角色边界和输出格式，用户消息放具体任务",
+        "代替 API key",
+        "只能写一行"
+      ]
+    },
+    {
+      "id": "q3",
+      "type": "single",
+      "score": 8,
+      "prompt": "同一道题先 Zero-shot 再 Few-shot，是为了看什么？",
+      "answer": 0,
+      "options": [
+        "例子会不会把格式和口径稳住",
+        "两个模型谁更贵",
+        "检索命中率",
+        "向量维度"
+      ]
+    },
+    {
+      "id": "q4",
+      "type": "single",
+      "score": 8,
+      "prompt": "response_format 设为 json_object 时，接口更可能返回什么？",
+      "answer": 0,
+      "options": [
+        "一个 JSON 对象，而不是前后带解释的散文",
+        "执行好的 SQL 结果",
+        "已经通过 Pydantic 的对象，无需再校验",
+        "空的 messages"
+      ]
+    },
+    {
+      "id": "q5",
+      "type": "single",
+      "score": 8,
+      "prompt": "格式要求写在哪里，下一轮用户换一句话时还在？",
+      "answer": 1,
+      "options": [
+        "只写在第一轮 user 里",
+        "写在 system 里，每轮请求都带着",
+        "写在 URL 路径里",
+        "写在模型文件名里"
+      ]
+    },
+    {
+      "id": "q6",
+      "type": "multi",
+      "score": 10,
+      "prompt": "哪些做法和这一周一致？",
+      "answer": [
+        0,
+        1,
+        3
+      ],
+      "options": [
+        "例子的格式要和希望模型输出的格式一致",
+        "system 里可以写「材料不足就说不知道」",
+        "提示里的例子会改掉模型权重",
+        "即使开了 json_object，仍要用 schema 再校验一次"
+      ]
+    },
+    {
+      "id": "q7",
+      "type": "short",
+      "score": 14,
+      "prompt": "给「根据名单写成绩摘要」写 system 时，角色边界和输出格式各要约束什么？各写一句即可。",
+      "answer": "角色：只根据给定名单，不编造学生和分数。格式：只输出 JSON，包含 summary、students、pass_count。",
+      "rubric": "有不编造的边界；有明确字段的格式。"
+    },
+    {
+      "id": "q8",
+      "type": "short",
+      "score": 12,
+      "prompt": "Zero-shot 已经能答对大意时，为什么还要加 Few-shot？例子在什么情况下会帮倒忙？",
+      "answer": "例子用来钉住字段名、语言和长度。例子互相矛盾，或和真实输入差很远时，模型会模仿错误格式。",
+      "rubric": "例子约束格式；矛盾或离题的例子会带偏。"
+    },
+    {
+      "id": "q9",
+      "type": "code",
+      "score": 12,
+      "prompt": "格式要求只放在第一轮 user。第二轮 messages 里如果没有 system，约束还在吗？怎么改？",
+      "answer": "不在。第二轮只剩新的 user 时，格式要求丢了。把格式放进 system，每次请求都带上。",
+      "rubric": "指出约束会丢；改到 system。"
+    },
+    {
+      "id": "q10",
+      "type": "code",
+      "score": 12,
+      "prompt": "Few-shot 的例子里 pass_count 和名单对不上。模型更可能学到什么？例子要满足什么？",
+      "answer": "会学到错误的计数方法。例子本身必须自洽，及格人数要等于名单里真正及格的人数。",
+      "rubric": "错误例子会被模仿；例子要自洽。"
+    }
+  ]
+}
