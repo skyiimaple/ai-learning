@@ -1,12 +1,12 @@
-# Day 27 · Memory + 重试 + 人机确认 · 未学习
+# Day 27 · Memory + 重试 + 人机确认 · 已学习
 
-- **日期**：按实际学习日
+- **日期**：2026-10-08
 - **时段**：2 小时
 - **课程根**：`~/code/ai-learning/python`
 - **阶段**：A 路线 · 第 4 个月 · Agent 稳健性
 - **今日主题**：对话短记忆/摘要；工具失败重试；高风险动作需确认；Ollama 选做
 - **原则**：一套记忆机制即可；危险工具默认 deny
-- **状态**：未学习
+- **状态**：已学习
 - **大纲**：`learning-outline.md` Day27
 
 ## 今日目标
@@ -151,9 +151,9 @@ def run_tool_with_retry(name: str, arguments: dict, *, retries: int = 2) -> str:
 
 **验收：**
 
-- [ ] 无 confirm 不删文件
-- [ ] 人为制造 calc 失败（非法字符）可见重试日志
-- [ ] playground 外路径拒绝
+- [x] 无 confirm 不删文件
+- [x] 人为制造 calc 失败（非法字符）可见重试日志
+- [x] playground 外路径拒绝
 
 ---
 
@@ -182,10 +182,10 @@ print(r.json()["choices"][0]["message"]["content"])
 
 ## 验收清单
 
-- [ ] memory 压缩可演示
-- [ ] 高风险工具确认流通
-- [ ] 失败重试可演示
-- [ ] （选）Ollama 三段对比笔记
+- [x] memory 压缩可演示
+- [x] 高风险工具确认流通
+- [x] 失败重试可演示
+- [x] （选）Ollama 三段对比笔记
 
 ## 明日预告
 

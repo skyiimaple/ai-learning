@@ -1,12 +1,12 @@
 {
   "version": 1,
   "startedAt": "2026-07-27",
-  "currentDay": 27,
-  "currentWeek": 14,
+  "currentDay": 28,
+  "currentWeek": 15,
   "timezone": "Asia/Shanghai",
   "studyWindowDefault": "current+2h",
   "summary": {
-    "daysCompleted": 26,
+    "daysCompleted": 27,
     "daysTotalEstimate": 35,
     "weeksCompleted": 0,
     "weeksTotal": 24,
@@ -279,7 +279,9 @@
         "失败重试",
         "Ollama"
       ],
-      "daysDone": [],
+      "daysDone": [
+        "day27"
+      ],
       "status": "in_progress",
       "exam": {
         "status": "pending",
@@ -296,9 +298,9 @@
         "主流程打通"
       ],
       "daysDone": [],
-      "status": "locked",
+      "status": "in_progress",
       "exam": {
-        "status": "locked",
+        "status": "pending",
         "score": null,
         "takenAt": null
       }
