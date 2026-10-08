@@ -1,0 +1,10 @@
+[
+    {"id": "g1", "question": "浏览器为什么不能放 LLM_API_KEY？", "expect_sources": ["bff.md"]},
+    {"id": "g2", "question": "NEXT_PUBLIC_ 前缀意味着什么？", "expect_sources": ["bff.md"]},
+    {"id": "g3", "question": "Tool Calling 里谁真正执行函数？", "expect_sources": ["tool_calling.md"]},
+    {"id": "g4", "question": "Day13 和 Day19 的 tool 循环差在哪？", "expect_sources": ["tool_calling.md"]},
+    {"id": "g5", "question": "FastAPI 流式响应常用什么？", "expect_sources": ["fastapi.md"]},
+    {"id": "g6", "question": "Day10 的 /chat/stream 是干什么的？", "expect_sources": ["fastapi.md"]},
+    {"id": "g7", "question": "BFF 为什么要藏内网端口？", "expect_sources": ["bff.md"]},
+    {"id": "g8", "question": "assistant 消息里的 tool_calls 要不要写回 history？", "expect_sources": ["tool_calling.md"]}
+  ]

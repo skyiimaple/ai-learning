@@ -1,12 +1,12 @@
 {
   "version": 1,
   "startedAt": "2026-07-27",
-  "currentDay": 23,
-  "currentWeek": 10,
+  "currentDay": 25,
+  "currentWeek": 12,
   "timezone": "Asia/Shanghai",
   "studyWindowDefault": "current+2h",
   "summary": {
-    "daysCompleted": 22,
+    "daysCompleted": 24,
     "daysTotalEstimate": 35,
     "weeksCompleted": 0,
     "weeksTotal": 24,
@@ -204,7 +204,8 @@
         "引用展示"
       ],
       "daysDone": [
-        "day22"
+        "day22",
+        "day23"
       ],
       "status": "in_progress",
       "exam": {
@@ -222,10 +223,12 @@
         "Re-rank",
         "Query Rewrite"
       ],
-      "daysDone": [],
-      "status": "locked",
+      "daysDone": [
+        "day24"
+      ],
+      "status": "in_progress",
       "exam": {
-        "status": "locked",
+        "status": "pending",
         "score": null,
         "takenAt": null
       }
@@ -240,9 +243,9 @@
         "Langfuse"
       ],
       "daysDone": [],
-      "status": "locked",
+      "status": "in_progress",
       "exam": {
-        "status": "locked",
+        "status": "pending",
         "score": null,
         "takenAt": null
       }

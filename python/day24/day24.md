@@ -1,4 +1,4 @@
-# Day 24 · Query Rewrite + Hybrid + 轻量 Re-rank · 未学习
+# Day 24 · Query Rewrite + Hybrid + 轻量 Re-rank · 已学习
 
 - **日期**：按实际学习日
 - **时段**：2 小时（建议 19:00–21:00）
@@ -6,7 +6,7 @@
 - **阶段**：A 路线 · 第 3 个月 · 检索优化
 - **今日主题**：同一条检索链上可开关 Rewrite / 关键词混合 / LLM 轻量重排；黄金集前后命中率对比
 - **原则**：先能量化再谈「感觉更好」；默认复用 Day23 Chroma + `gold.json`
-- **状态**：未学习
+- **状态**：已学习
 - **大纲**：`learning-outline.md` Day24
 
 ## 环境
@@ -170,8 +170,8 @@ if __name__ == "__main__":
 
 **验收：**
 
-- [ ] `python rewrite.py` 输出更短更术语化
-- [ ] hybrid 对「文件名/专有名词」问句不比纯向量差
+- [x] `python rewrite.py` 输出更短更术语化
+- [x] hybrid 对「文件名/专有名词」问句不比纯向量差
 
 ---
 
@@ -324,8 +324,8 @@ python eval_compare.py
 
 **验收：**
 
-- [ ] 打印两行命中率
-- [ ] 能说清哪个开关贵（rerank 调 LLM）
+- [x] 打印两行命中率
+- [x] 能说清哪个开关贵（rerank 调 LLM）
 
 ---
 
@@ -340,9 +340,9 @@ python eval_compare.py
 
 ## 验收清单
 
-- [ ] `eval_compare.py` 有对比数字
-- [ ] `pipeline.retrieve` 三个开关都能关
-- [ ] 口述：为何不训练 reranker
+- [x] `eval_compare.py` 有对比数字
+- [x] `pipeline.retrieve` 三个开关都能关
+- [x] 口述：为何不训练 reranker
 
 ## 明日预告
 

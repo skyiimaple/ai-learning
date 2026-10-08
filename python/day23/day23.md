@@ -1,4 +1,4 @@
-# Day 23 · Chroma 索引 + 黄金集命中率 · 未学习
+# Day 23 · Chroma 索引 + 黄金集命中率 · 已学习
 
 - **日期**：2026-09-28
 - **时段**：15:00–17:00（2 小时）
@@ -6,7 +6,7 @@
 - **阶段**：A 路线 · 第 3 个月 · RAG 实现 / 评测入门
 - **今日主题**：用 Chroma 持久化向量；写 6–8 条黄金问答算检索命中率；Embedding=`embedding-3`
 - **原则**：换存储不换心智；先评「该命中哪个文件」
-- **状态**：未学习
+- **状态**：已学习
 
 ## 环境
 
@@ -215,8 +215,8 @@ python retrieve_chroma.py
 
 **验收：**
 
-- [ ] 出现 `chroma_db/`
-- [ ] 三问 top source 大致合理
+- [x] 出现 `chroma_db/`
+- [x] 三问 top source 大致合理
 
 ---
 
@@ -282,8 +282,8 @@ python eval_retrieve.py 5
 
 **验收：**
 
-- [ ] 打印 OK/MISS 与命中率
-- [ ] 明白这是检索评测，不是答案质量评测
+- [x] 打印 OK/MISS 与命中率
+- [x] 明白这是检索评测，不是答案质量评测
 
 ---
 
@@ -297,9 +297,9 @@ python eval_retrieve.py 5
 
 ## 验收清单
 
-- [ ] build + retrieve 通
-- [ ] eval 输出命中率
-- [ ] 能口述 Chroma vs npy
+- [x] build + retrieve 通
+- [x] eval 输出命中率
+- [x] 能口述 Chroma vs npy
 
 ## 明日预告
 
